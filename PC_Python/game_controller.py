@@ -6,7 +6,7 @@ import pyvjoy # Windows apenas
 
 class MyControllerMap:
     def __init__(self):
-        self.botoes = {'verde': 1,'vermelho': 2, 'amarelo': 3, 'azul': 4, 'laranja': 5, 'palheta': 6, 'pause': 7}
+        self.botoes = {'verde': 1,'vermelho': 2, 'amarelo': 3, 'azul': 4, 'laranja': 5, 'palheta_down': 6, 'palheta_up': 7}
 
 class SerialControllerInterface:
 
@@ -30,51 +30,51 @@ class SerialControllerInterface:
         logging.debug("Received DATA: {}".format(data))
         data_str = bytearray(data).decode('ascii')
         logging.debug("data_str:{}".format(data_str)) # rodar com -d para debug
-        verde,vermelho,amarelo,azul,laranja,palheta,pause,Xis = data_str
+        verde,vermelho,amarelo,azul,laranja,palheta_down,palheta_up,Xis = data_str
 
-        print(verde, vermelho, amarelo, azul, laranja, palheta, pause)
+        print(verde, vermelho, amarelo, azul, laranja, palheta_down, palheta_up)
 
-        if verde == b'1':
+        if verde == '1':
             logging.info("Pressionando verde")
             self.j.set_button(self.mapping.botoes['verde'], 1)
-        elif verde == b'0':
+        elif verde == '0':
             self.j.set_button(self.mapping.botoes['verde'], 0)
             
-        if vermelho == b'1':
+        if vermelho == '1':
             logging.info("Pressionando vermelho")
             self.j.set_button(self.mapping.botoes['vermelho'], 1)
-        elif vermelho == b'0':
+        elif vermelho == '0':
             self.j.set_button(self.mapping.botoes['vermelho'], 0)
             
-        if amarelo == b'1':
+        if amarelo == '1':
             logging.info("Pressionando amarelo")
             self.j.set_button(self.mapping.botoes['amarelo'], 1)
-        elif amarelo == b'0':
+        elif amarelo == '0':
             self.j.set_button(self.mapping.botoes['amarelo'], 0)
             
-        if azul == b'1':
+        if azul == '1':
             logging.info("Pressionando azul")
             self.j.set_button(self.mapping.botoes['azul'], 1)
-        elif azul == b'0':
+        elif azul == '0':
             self.j.set_button(self.mapping.botoes['azul'], 0)
             
-        if laranja == b'1':
+        if laranja == '1':
             logging.info("Pressionando laranja")
             self.j.set_button(self.mapping.botoes['laranja'], 1)
-        elif laranja == b'0':
+        elif laranja == '0':
             self.j.set_button(self.mapping.botoes['laranja'], 0)
             
-        if palheta == b'1':
-            logging.info("Pressionando palheta")
-            self.j.set_button(self.mapping.botoes['palheta'], 1)
-        elif palheta == b'0':
-            self.j.set_button(self.mapping.botoes['palheta'], 0)
+        if palheta_down == '1':
+            logging.info("Pressionando palheta_down")
+            self.j.set_button(self.mapping.botoes['palheta_down'], 1)
+        elif palheta_down == '0':
+            self.j.set_button(self.mapping.botoes['palheta_down'], 0)
 
-        if pause == b'1':
-            logging.info("Pressionando pause")
-            self.j.set_button(self.mapping.botoes['pause'], 1)
-        elif pause == b'0':
-            self.j.set_button(self.mapping.botoes['pause'], 0)
+        if palheta_up == '1':
+            logging.info("Pressionando palheta_up")
+            self.j.set_button(self.mapping.botoes['palheta_up'], 1)
+        elif palheta_up == '0':
+            self.j.set_button(self.mapping.botoes['palheta_up'], 0)
 
         self.incoming = self.ser.read()
 

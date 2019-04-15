@@ -138,8 +138,8 @@ int main (void)
 	char amarelo = '0';
 	char azul = '0';
 	char laranja = '0';
-	char palheta = '0';
-	char pause = '0';
+	char palheta_down = '0';
+	char palheta_up = '0';
 	char eof = 'X';
 	char buffer[1024];
 	
@@ -150,7 +150,7 @@ int main (void)
 		else {
 			verde = '0';
 		}
-		if(pio_get(PIOB, PIO_INPUT, PIO_PB2) == 0) {
+		if(pio_get(PIOC, PIO_INPUT, PIO_PC31) == 0) {
 			vermelho = '1';
 		}
 		else {
@@ -162,29 +162,29 @@ int main (void)
 		else {
 			amarelo = '0';
 		}
-		if(pio_get(PIOC, PIO_INPUT, PIO_PC17) == 0) {
+		if(pio_get(PIOA, PIO_INPUT, PIO_PA0) == 0) {
 			azul = '1';
 		}
 		else {
 			azul = '0';
 		}
-		if(pio_get(PIOA, PIO_INPUT, PIO_PA4) == 0) {
+		if(pio_get(PIOD, PIO_INPUT, PIO_PD28) == 0) {
 			laranja = '1';
 		}
 		else {
 			laranja = '0';
 		}
-		if(pio_get(PIOB, PIO_INPUT, PIO_PB3) == 0) {
-			palheta = '1';
+		if(pio_get(PIOC, PIO_INPUT, PIO_PC17) == 0) {
+			palheta_down = '1';
 		}
 		else {
-			palheta = '0';
+			palheta_down = '0';
 		}
-		if(pio_get(PIOA, PIO_INPUT, PIO_PA0) == 0) {
-			pause = '1';
+		if(pio_get(PIOA, PIO_INPUT, PIO_PA3) == 0) {
+			palheta_up = '1';
 		}
 		else {
-			pause = '0';
+			palheta_up = '0';
 		}
 		
 		while(!usart_is_tx_ready(UART_COMM));
@@ -198,9 +198,9 @@ int main (void)
 		while(!usart_is_tx_ready(UART_COMM));
 		usart_write(UART_COMM, laranja);
 		while(!usart_is_tx_ready(UART_COMM));
-		usart_write(UART_COMM, palheta);
+		usart_write(UART_COMM, palheta_down);
 		while(!usart_is_tx_ready(UART_COMM));
-		usart_write(UART_COMM, pause);
+		usart_write(UART_COMM, palheta_up);
 		while(!usart_is_tx_ready(UART_COMM));
 		usart_write(UART_COMM, eof);
 	}
