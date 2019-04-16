@@ -31,9 +31,45 @@
 #include <asf.h>
 #include <string.h>
 
+// LED Vermelho
+#define LEDR_PIO      PIOC
+#define LEDR_PIO_ID   ID_PIOC
+#define LEDR_IDX      13
+#define LEDR_IDX_MASK (1 << LEDR_IDX)
+
+// LED Verde
+#define LEDG_PIO      PIOA
+#define LEDG_PIO_ID   ID_PIOA
+#define LEDG_IDX      4
+#define LEDG_IDX_MASK (1 << LEDG_IDX)
+
+// LED Azul
+#define LEDB_PIO      PIOD
+#define LEDB_PIO_ID   ID_PIOD
+#define LEDB_IDX      26
+#define LEDB_IDX_MASK (1 << LEDB_IDX)
+
+volatile Bool vermelho;
+volatile Bool verde;
+volatile Bool azul;
+
+void pisca_vermelho(int v) {
+	if(v){pio_clear(LEDR_PIO, LEDR_IDX_MASK);}
+	if(!v){pio_set(LEDR_PIO, LEDR_IDX_MASK);}
+}
+
+void pisca_verde(int v) {
+	if(v){pio_clear(LEDG_PIO, LEDG_IDX_MASK);}
+	if(!v){pio_set(LEDG_PIO, LEDG_IDX_MASK);}
+}
+
+void pisca_azul(int v) {
+	if(v){pio_clear(LEDB_PIO, LEDB_IDX_MASK);}
+	if(!v){pio_set(LEDB_PIO, LEDB_IDX_MASK);}
+}
+
 // Descomente o define abaixo, para desabilitar o Bluetooth e utilizar modo Serial via Cabo
 //#define DEBUG_SERIAL
-
 
 #ifdef DEBUG_SERIAL
 #define UART_COMM USART1
@@ -117,6 +153,24 @@ int hc05_server_init(void) {
 	usart_log("hc05_server_init", buffer_rx);
 }
 
+int led_init(void){
+	// Configura led vermelho
+	pmc_enable_periph_clk(LEDR_PIO_ID);
+	pio_configure(LEDR_PIO, PIO_OUTPUT_0, LEDR_IDX_MASK, PIO_DEFAULT);
+	
+	// Configura led verde
+	pmc_enable_periph_clk(LEDG_PIO_ID);
+	pio_configure(LEDG_PIO, PIO_OUTPUT_0, LEDG_IDX_MASK, PIO_DEFAULT);
+	
+	// Configura led azul
+	pmc_enable_periph_clk(LEDB_PIO_ID);
+	pio_configure(LEDB_PIO, PIO_OUTPUT_0, LEDB_IDX_MASK, PIO_DEFAULT);
+	
+	//da set em todos (certeza que apaga) 
+	pio_set(LEDR_PIO, LEDR_IDX_MASK);
+	pio_set(LEDG_PIO, LEDG_IDX_MASK);
+	pio_set(LEDB_PIO, LEDB_IDX_MASK);
+}
 
 int main (void)
 {
@@ -146,33 +200,47 @@ int main (void)
 	while(1) {
 		if(pio_get(PIOA, PIO_INPUT, PIO_PA19) == 0) {
 			verde = '1';
+			pisca_verde(1);
 		}
 		else {
 			verde = '0';
+			pisca_verde(0);
 		}
 		if(pio_get(PIOC, PIO_INPUT, PIO_PC31) == 0) {
 			vermelho = '1';
+			pisca_vermelho(1);
 		}
 		else {
 			vermelho = '0';
+			pisca_vermelho(0);
 		}
 		if(pio_get(PIOC, PIO_INPUT, PIO_PC30) == 0) {
 			amarelo = '1';
+			pisca_verde(1);
+			pisca_vermelho(1);
 		}
 		else {
 			amarelo = '0';
+			pisca_verde(0);
+			pisca_vermelho(0);
 		}
 		if(pio_get(PIOA, PIO_INPUT, PIO_PA0) == 0) {
 			azul = '1';
+			pisca_azul(1);
 		}
 		else {
 			azul = '0';
+			pisca_azul(0);
 		}
 		if(pio_get(PIOD, PIO_INPUT, PIO_PD28) == 0) {
 			laranja = '1';
+			pisca_verde(1);
+			pisca_vermelho(1);
 		}
 		else {
 			laranja = '0';
+			pisca_verde(0);
+			pisca_vermelho(0);
 		}
 		if(pio_get(PIOC, PIO_INPUT, PIO_PC17) == 0) {
 			palheta_down = '1';
