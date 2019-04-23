@@ -6,7 +6,7 @@ import pyvjoy # Windows apenas
 
 class MyControllerMap:
     def __init__(self):
-        self.botoes = {'verde': 1,'vermelho': 2, 'amarelo': 3, 'azul': 4, 'laranja': 5, 'palheta_down': 6, 'palheta_up': 7}
+        self.botoes = {'verde': 1, 'vermelho': 2, 'amarelo': 3, 'azul': 4, 'laranja': 5, 'palheta_down': 6, 'palheta_up': 7, 'whammy_up': 8, 'whammy_down': 9}
 
 class SerialControllerInterface:
 
@@ -26,13 +26,14 @@ class SerialControllerInterface:
             self.incoming = self.ser.read()
             logging.debug("Received INCOMING: {}".format(self.incoming))
 
-        data = self.ser.read(8)
+        data = self.ser.read(9)
+        # print(data)
         logging.debug("Received DATA: {}".format(data))
         data_str = bytearray(data).decode('ascii')
         logging.debug("data_str:{}".format(data_str)) # rodar com -d para debug
-        verde,vermelho,amarelo,azul,laranja,palheta_down,palheta_up,Xis = data_str
+        verde,vermelho,amarelo,azul,laranja,palheta_down,palheta_up,analog,Xis = data_str
 
-        print(verde, vermelho, amarelo, azul, laranja, palheta_down, palheta_up)
+        print(verde, vermelho, amarelo, azul, laranja, palheta_down, palheta_up, analog)
 
         if verde == '1':
             logging.info("Pressionando verde")
@@ -75,6 +76,14 @@ class SerialControllerInterface:
             self.j.set_button(self.mapping.botoes['palheta_up'], 1)
         elif palheta_up == '0':
             self.j.set_button(self.mapping.botoes['palheta_up'], 0)
+
+        if int(analog) <= 5:
+            self.j.set_button(self.mapping.botoes['whammy_up'], 1)
+            self.j.set_button(self.mapping.botoes['whammy_down'], 0)
+
+        elif int(analog) > 5:
+            self.j.set_button(self.mapping.botoes['whammy_up'], 0)
+            self.j.set_button(self.mapping.botoes['whammy_down'], 1)
 
         self.incoming = self.ser.read()
 

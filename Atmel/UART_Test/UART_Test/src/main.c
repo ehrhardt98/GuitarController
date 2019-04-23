@@ -49,6 +49,11 @@
 #define LEDB_IDX      26
 #define LEDB_IDX_MASK (1 << LEDB_IDX)
 
+#define AFEC_CHANNEL_TEMP_SENSOR 5
+
+#define VOLT_REF        (3300)
+#define MAX_DIGITAL     (4095)
+
 // Descomente o define abaixo, para desabilitar o Bluetooth e utilizar modo Serial via Cabo
 //#define DEBUG_SERIAL
 
@@ -59,11 +64,99 @@
 #endif
 
 volatile long g_systimer = 0;
+volatile int g_ul_value = 0;
+volatile bool g_is_conversion_done = false;
+volatile char analogico = '0';
+
 
 void SysTick_Handler() {
 	g_systimer++;
 }
 
+// Analogico
+
+static void AFEC_Temp_callback(void)
+{
+	g_ul_value = afec_channel_get_value(AFEC0, AFEC_CHANNEL_TEMP_SENSOR)/100;
+	g_is_conversion_done = true;
+	if(g_ul_value==9){
+		analogico = '9';
+	}
+	if(g_ul_value==8){
+		analogico = '8';
+	}
+	if(g_ul_value==7){
+		analogico = '7';
+	}
+	if(g_ul_value==6){
+		analogico = '6';
+	}
+	if(g_ul_value==5){
+		analogico = '5';
+	}
+	if(g_ul_value==4){
+		analogico = '4';
+	}
+	if(g_ul_value==3){
+		analogico = '3';
+	}
+	if(g_ul_value==2){
+		analogico = '2';
+	}
+	if(g_ul_value==1){
+		analogico = '1';
+	}
+	if(g_ul_value==0){
+		analogico = '0';
+	}
+	
+}
+
+
+static void config_ADC_TEMP(void){
+/*************************************
+   * Ativa e configura AFEC
+   *************************************/
+  /* Ativa AFEC - 0 */
+	afec_enable(AFEC0);
+
+	/* struct de configuracao do AFEC */
+	struct afec_config afec_cfg;
+
+	/* Carrega parametros padrao */
+	afec_get_config_defaults(&afec_cfg);
+
+	/* Configura AFEC */
+	afec_init(AFEC0, &afec_cfg);
+
+	/* Configura trigger por software */
+	//afec_set_trigger(AFEC0, AFEC_TRIG_SW);
+
+	/* configura call back */
+	afec_set_callback(AFEC0, AFEC_INTERRUPT_EOC_5,	AFEC_Temp_callback, 1);
+
+	/*** Configuracao específica do canal AFEC ***/
+	struct afec_ch_config afec_ch_cfg;
+	afec_ch_get_config_defaults(&afec_ch_cfg);
+	afec_ch_cfg.gain = AFEC_GAINVALUE_0;
+	afec_ch_set_config(AFEC0, AFEC_CHANNEL_TEMP_SENSOR, &afec_ch_cfg);
+
+	/*
+	* Calibracao:
+	* Because the internal ADC offset is 0x200, it should cancel it and shift
+	 down to 0.
+	 */
+	afec_channel_set_analog_offset(AFEC0, AFEC_CHANNEL_TEMP_SENSOR, 0x200);
+
+	/***  Configura sensor de temperatura ***/
+	struct afec_temp_sensor_config afec_temp_sensor_cfg;
+
+	afec_temp_sensor_get_config_defaults(&afec_temp_sensor_cfg);
+	afec_temp_sensor_set_config(AFEC0, &afec_temp_sensor_cfg);
+
+	/* Selecina canal e inicializa conversão */
+	afec_channel_enable(AFEC0, AFEC_CHANNEL_TEMP_SENSOR);
+}
 
 void config_console(void) {
 	usart_serial_options_t config;
@@ -158,7 +251,9 @@ int main (void)
 	SysTick_Config(sysclk_get_cpu_hz() / 1000); // 1 ms
 	config_console();
 	led_init();
-	
+	config_ADC_TEMP();
+	afec_start_software_conversion(AFEC0);
+
 	#ifndef DEBUG_SERIAL
 	usart_put_string(USART1, "Inicializando...\r\n");
 	usart_put_string(USART1, "Config HC05 Server...\r\n");
@@ -174,9 +269,9 @@ int main (void)
 	char palheta_down = '0';
 	char palheta_up = '0';
 	char eof = 'X';
-	char buffer[1024];
+	char str[8];
 	
-	while(1) {
+	while(1) {	
 		verde = '0';
 		vermelho = '0';
 		amarelo = '0';
@@ -232,6 +327,10 @@ int main (void)
 		usart_write(UART_COMM, palheta_down);
 		while(!usart_is_tx_ready(UART_COMM));
 		usart_write(UART_COMM, palheta_up);
+		/*sprintf(str, "%d", g_ul_value);*/
+		while(!usart_is_tx_ready(UART_COMM));
+		usart_write(UART_COMM, analogico);
+		afec_start_software_conversion(AFEC0);
 		while(!usart_is_tx_ready(UART_COMM));
 		usart_write(UART_COMM, eof);
 	}
