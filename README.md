@@ -6,12 +6,12 @@
     - callback
     - acelerometro
     - mecânica
-    - mudar de kit de desenvolvimeto
     - economia de energia
-    
+    - RTOS
+ 
 - B (2 itens)
 - A (+ 1 item)
-    - RTOS
+    - mudar de kit de desenvolvimeto
     - led enderecavel
     - mode demo (quando conecta)
     - melhorar o python (vjoy)
