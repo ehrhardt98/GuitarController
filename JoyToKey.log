@@ -1,54 +1,84 @@
-2019-04-30 18:17:45.376 Info   C:\Users\jorge\Downloads\JoyToKey.exe
-2019-04-30 18:17:45.376 Info   Starting JoyToKey v6.2
-2019-04-30 18:17:45.376 Info   ExeFile=C:\Users\jorge\Downloads\JoyToKey.exe
-2019-04-30 18:17:45.376 Info   ConfigDir=C:\Users\jorge\Downloads\
-2019-04-30 18:17:45.376 Info   IniFile=C:\Users\jorge\Downloads\JoyToKey.ini
-2019-04-30 18:17:45.376 Info   Windows Version = 6.2
-2019-04-30 18:17:45.379 Error  Failed to load VistaAPI.dll (Utils\Utils.cpp#227)
-2019-04-30 18:17:45.379 Info   Loading ini file: C:\Users\jorge\Downloads\JoyToKey.ini (AppInfo.cpp#231)
-2019-04-30 18:17:45.384 Info   LicenseKey "" is not valid
-2019-04-30 18:17:45.513 Info   Loading XInput1_3.dll (Joystick.cpp#128)
-2019-04-30 18:17:45.514 Info   Initialized XInput (Joystick.cpp#146)
-2019-04-30 18:17:45.534 Info   Detected a DI joystick: {379AA520-391C-11E9-8002-444553540000}, vJoy Device, vJoy Device
-2019-04-30 18:17:45.537 Info   numAxis = 8
-2019-04-30 18:17:45.537 Info   numPOVs = 0
-2019-04-30 18:17:45.537 Info   numButtons = 10
-2019-04-30 18:17:45.537 Info   EnumDeviceObject: Axis offset=0 type=1000002 name=X Axis
-2019-04-30 18:17:45.537 Info   EnumDeviceObject: Axis offset=4 type=1000102 name=Y Axis
-2019-04-30 18:17:45.537 Info   EnumDeviceObject: Axis offset=8 type=202 name=Z Axis
-2019-04-30 18:17:45.537 Info   EnumDeviceObject: Axis offset=12 type=302 name=X Rotation
-2019-04-30 18:17:45.537 Info   EnumDeviceObject: Axis offset=16 type=402 name=Y Rotation
-2019-04-30 18:17:45.537 Info   EnumDeviceObject: Axis offset=20 type=502 name=Z Rotation
-2019-04-30 18:17:45.537 Info   EnumDeviceObject: Axis offset=24 type=602 name=Slider
-2019-04-30 18:17:45.537 Info   EnumDeviceObject: Axis offset=28 type=702 name=Dial
-2019-04-30 18:17:45.561 Info   DetectJoysticks: Detected 1 DI joystick(s)
-2019-04-30 18:17:45.563 Info   Joystick #1: vJoy Device
-2019-04-30 18:17:45.563 Info   1 joysticks are detected (Joystick.cpp#168)
-2019-04-30 18:17:45.563 Info   ConfigDir=C:\Users\jorge\Downloads\*.cfg (ConfigFileManager.cpp#43)
-2019-04-30 18:17:45.564 Info   Failed to find AppLink.dat (AppLink\AppLinkManager.cpp#32)
-2019-04-30 18:17:45.576 Info   TimerInit: Initializing timer with x1 speed mode (interval = 16 msec)
-2019-04-30 18:19:47.656 Error  Access is denied.
+2019/05/17 16:39:22.680 Info   C:\Users\Dell\Desktop\Insper\2019.1\CompEmbarc\GuitarController\JoyToKey.exe
+2019/05/17 16:39:22.680 Info   Starting JoyToKey v6.2
+2019/05/17 16:39:22.680 Info   ExeFile=C:\Users\Dell\Desktop\Insper\2019.1\CompEmbarc\GuitarController\JoyToKey.exe
+2019/05/17 16:39:22.681 Info   ConfigDir=C:\Users\Dell\Desktop\Insper\2019.1\CompEmbarc\GuitarController\
+2019/05/17 16:39:22.681 Info   IniFile=C:\Users\Dell\Desktop\Insper\2019.1\CompEmbarc\GuitarController\JoyToKey.ini
+2019/05/17 16:39:22.681 Info   Windows Version = 6.2
+2019/05/17 16:39:22.687 Error  Failed to load VistaAPI.dll (Utils\Utils.cpp#227)
+2019/05/17 16:39:22.689 Info   Loading ini file: C:\Users\Dell\Desktop\Insper\2019.1\CompEmbarc\GuitarController\JoyToKey.ini (AppInfo.cpp#231)
+2019/05/17 16:39:22.702 Info   LicenseKey "" is not valid
+2019/05/17 16:39:23.287 Info   Loading XInput1_3.dll (Joystick.cpp#128)
+2019/05/17 16:39:23.319 Info   Initialized XInput (Joystick.cpp#146)
+2019/05/17 16:39:23.634 Info   Detected a DI joystick: {531319A0-78C2-11E9-8002-444553540000}, vJoy Device, vJoy Device
+2019/05/17 16:39:23.828 Info   numAxis = 8
+2019/05/17 16:39:23.828 Info   numPOVs = 0
+2019/05/17 16:39:23.828 Info   numButtons = 8
+2019/05/17 16:39:23.828 Info   EnumDeviceObject: Axis offset=0 type=1000002 name=Eixo X
+2019/05/17 16:39:23.828 Info   EnumDeviceObject: Axis offset=4 type=1000102 name=Eixo Y
+2019/05/17 16:39:23.828 Info   EnumDeviceObject: Axis offset=8 type=202 name=Eixo Z
+2019/05/17 16:39:23.829 Info   EnumDeviceObject: Axis offset=12 type=302 name=Rotação X
+2019/05/17 16:39:23.829 Info   EnumDeviceObject: Axis offset=16 type=402 name=Rotação Y
+2019/05/17 16:39:23.829 Info   EnumDeviceObject: Axis offset=20 type=502 name=Rotação Z
+2019/05/17 16:39:23.829 Info   EnumDeviceObject: Axis offset=24 type=602 name=Controle deslizante
+2019/05/17 16:39:23.829 Info   EnumDeviceObject: Axis offset=28 type=702 name=Discar
+2019/05/17 16:39:23.837 Info   DetectJoysticks: Detected 1 DI joystick(s)
+2019/05/17 16:39:23.844 Info   Joystick #1: vJoy Device
+2019/05/17 16:39:23.844 Info   1 joysticks are detected (Joystick.cpp#168)
+2019/05/17 16:39:23.844 Info   ConfigDir=C:\Users\Dell\Desktop\Insper\2019.1\CompEmbarc\GuitarController\*.cfg (ConfigFileManager.cpp#43)
+2019/05/17 16:39:23.859 Info   Failed to find AppLink.dat (AppLink\AppLinkManager.cpp#32)
+2019/05/17 16:39:23.932 Info   TimerInit: Initializing timer with x1 speed mode (interval = 16 msec)
+2019/05/17 16:41:09.982 Error  Acesso negado.
  (Utils\Utils.cpp#479)
-2019-04-30 18:23:51.960 Info   Save config file "Profile 1" (ConfigFileManager.cpp#425)
-2019-04-30 23:17:17.951 Info   Received PBT_APMSUSPEND: Disabling a timer... (Main.cpp#433)
-2019-05-01 00:09:38.203 Info   Received PBT_APMRESUMESUSPEND: Reinitializing joysticks... (Main.cpp#438)
-2019-05-01 00:09:38.203 Info   Loading XInput1_3.dll (Joystick.cpp#128)
-2019-05-01 00:09:38.203 Info   Initialized XInput (Joystick.cpp#146)
-2019-05-01 00:09:38.221 Info   Detected a DI joystick: {379AA520-391C-11E9-8002-444553540000}, vJoy Device, vJoy Device
-2019-05-01 00:09:38.269 Info   numAxis = 8
-2019-05-01 00:09:38.269 Info   numPOVs = 0
-2019-05-01 00:09:38.269 Info   numButtons = 10
-2019-05-01 00:09:38.269 Info   EnumDeviceObject: Axis offset=0 type=1000002 name=X Axis
-2019-05-01 00:09:38.269 Info   EnumDeviceObject: Axis offset=4 type=1000102 name=Y Axis
-2019-05-01 00:09:38.269 Info   EnumDeviceObject: Axis offset=8 type=202 name=Z Axis
-2019-05-01 00:09:38.269 Info   EnumDeviceObject: Axis offset=12 type=302 name=X Rotation
-2019-05-01 00:09:38.269 Info   EnumDeviceObject: Axis offset=16 type=402 name=Y Rotation
-2019-05-01 00:09:38.269 Info   EnumDeviceObject: Axis offset=20 type=502 name=Z Rotation
-2019-05-01 00:09:38.269 Info   EnumDeviceObject: Axis offset=24 type=602 name=Slider
-2019-05-01 00:09:38.269 Info   EnumDeviceObject: Axis offset=28 type=702 name=Dial
-2019-05-01 00:09:38.297 Info   DetectJoysticks: Detected 1 DI joystick(s)
-2019-05-01 00:09:38.297 Info   Joystick #1: vJoy Device
-2019-05-01 00:09:38.297 Info   1 joysticks are detected (Joystick.cpp#168)
-2019-05-01 00:09:38.297 Info   TimerInit: Initializing timer with x1 speed mode (interval = 16 msec)
-01-May-19 12:10:35 AM Error  Access is denied.
+17/05/2019 16:46:04 Error  Acesso negado.
  (Utils\Utils.cpp#479)
+17/05/2019 16:46:09 Error  Acesso negado.
+ (Utils\Utils.cpp#479)
+17/05/2019 16:46:09 Error  Acesso negado.
+ (Utils\Utils.cpp#479)
+17/05/2019 16:46:09 Error  Acesso negado.
+ (Utils\Utils.cpp#479)
+17/05/2019 16:46:22 Error  Acesso negado.
+ (Utils\Utils.cpp#479)
+17/05/2019 16:46:22 Error  Acesso negado.
+ (Utils\Utils.cpp#479)
+17/05/2019 16:46:22 Error  Acesso negado.
+ (Utils\Utils.cpp#479)
+17/05/2019 16:46:24 Error  Acesso negado.
+ (Utils\Utils.cpp#479)
+17/05/2019 16:46:26 Error  Acesso negado.
+ (Utils\Utils.cpp#479)
+17/05/2019 16:46:27 Error  Acesso negado.
+ (Utils\Utils.cpp#479)
+17/05/2019 16:46:27 Error  Acesso negado.
+ (Utils\Utils.cpp#479)
+17/05/2019 16:46:28 Error  Acesso negado.
+ (Utils\Utils.cpp#479)
+17/05/2019 16:46:28 Error  Acesso negado.
+ (Utils\Utils.cpp#479)
+17/05/2019 16:47:05 Error  Acesso negado.
+ (Utils\Utils.cpp#479)
+17/05/2019 16:47:07 Error  Acesso negado.
+ (Utils\Utils.cpp#479)
+17/05/2019 16:47:07 Error  Acesso negado.
+ (Utils\Utils.cpp#479)
+17/05/2019 16:49:21 Error  Acesso negado.
+ (Utils\Utils.cpp#479)
+17/05/2019 16:49:32 Error  Acesso negado.
+ (Utils\Utils.cpp#479)
+17/05/2019 16:59:23 Error  Acesso negado.
+ (Utils\Utils.cpp#479)
+17/05/2019 17:01:58 Info   Detected a DI joystick: {531319A0-78C2-11E9-8002-444553540000}, vJoy Device, vJoy Device
+17/05/2019 17:01:58 Info   numAxis = 8
+17/05/2019 17:01:58 Info   numPOVs = 0
+17/05/2019 17:01:58 Info   numButtons = 8
+17/05/2019 17:01:58 Info   EnumDeviceObject: Axis offset=0 type=1000002 name=Eixo X
+17/05/2019 17:01:58 Info   EnumDeviceObject: Axis offset=4 type=1000102 name=Eixo Y
+17/05/2019 17:01:58 Info   EnumDeviceObject: Axis offset=8 type=202 name=Eixo Z
+17/05/2019 17:01:58 Info   EnumDeviceObject: Axis offset=12 type=302 name=Rotação X
+17/05/2019 17:01:58 Info   EnumDeviceObject: Axis offset=16 type=402 name=Rotação Y
+17/05/2019 17:01:58 Info   EnumDeviceObject: Axis offset=20 type=502 name=Rotação Z
+17/05/2019 17:01:58 Info   EnumDeviceObject: Axis offset=24 type=602 name=Controle deslizante
+17/05/2019 17:01:58 Info   EnumDeviceObject: Axis offset=28 type=702 name=Discar
+17/05/2019 17:01:58 Info   DetectJoysticks: Detected 1 DI joystick(s)
+17/05/2019 17:01:58 Info   Joystick #1: vJoy Device
+17/05/2019 17:03:19 Info   Application terminated (Utils\LogFile.cpp#20)

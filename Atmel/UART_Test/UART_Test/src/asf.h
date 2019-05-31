@@ -62,6 +62,24 @@
 // From module: Delay routines
 #include <delay.h>
 
+// From module: FreeRTOS - kernel 10.0.0
+#include <FreeRTOS.h>
+#include <StackMacros.h>
+#include <croutine.h>
+#include <deprecated_definitions.h>
+#include <event_groups.h>
+#include <list.h>
+#include <message_buffer.h>
+#include <mpu_wrappers.h>
+#include <portable.h>
+#include <projdefs.h>
+#include <queue.h>
+#include <semphr.h>
+#include <stack_macros.h>
+#include <stream_buffer.h>
+#include <task.h>
+#include <timers.h>
+
 // From module: GPIO - General purpose Input/Output
 #include <gpio.h>
 
@@ -102,6 +120,9 @@
 
 // From module: System Clock Control - SAME70 implementation
 #include <sysclk.h>
+
+// From module: TC - Timer Counter
+#include <tc.h>
 
 // From module: UART - Univ. Async Rec/Trans
 #include <uart.h>
