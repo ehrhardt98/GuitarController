@@ -1,6 +1,8 @@
 # Controle de Guitar Hero
+   Projeto do quinto semestre, da matéria Sistemas Embarcados (Insper).
+   O projeto consistia em recriar o controle do jogo Guitar Hero (Activision) com bluetooth para fins de estudo.
  
-# rubrica projeto 2
+# Rubrica projeto 2
 
 - C
     - callback
@@ -18,11 +20,10 @@
 
 
 # Instruções para rodar:
-
-- conectar bluetooth no pc
-- ligar os devidos pinos no bluetooth da placa
-- ligar os pinos dos botões
-- abrir vjoy monitor
-- abrir joy2key para usar no emulador
-- rodar game_controller.py COM(outgoing do bluetooth) -b 9600
-- autorizar o bluetooth e digitar a senha (1234)
+ - conectar bluetooth no pc
+ - ligar os devidos pinos no bluetooth da placa
+ - ligar os pinos dos botões
+ - abrir vjoy monitor
+ - abrir joy2key para usar no emulador
+ - rodar game_controller.py COM(outgoing do bluetooth)
+ - autorizar o bluetooth e digitar a senha (0000)
