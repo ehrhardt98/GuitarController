@@ -123,7 +123,7 @@ extern void vApplicationMallocFailedHook(void)
 /************************************************************************/
 void Green_callback(void)
 {
-	int8_t dado=0x0F;
+	int8_t dado = 0;
 	if(!pio_get(Green_PIO, PIO_INPUT, PIO_PA19)){
 		dado = ID_Green<<4 | 1<<0;
 	}
@@ -136,7 +136,7 @@ void Green_callback(void)
 
 void Red_callback(void)
 {
-	int8_t dado=0x0F;
+	int8_t dado = 0;
 	if(!pio_get(Red_PIO, PIO_INPUT, PIO_PC31)){
 		dado = ID_Red<<4 | 1<<0;
 	}
@@ -149,7 +149,7 @@ void Red_callback(void)
 
 void Yellow_callback(void)
 {
-	int8_t dado=0x0F;
+	int8_t dado = 0;
 	if(!pio_get(Yellow_PIO, PIO_INPUT, PIO_PC30)){
 		dado = ID_Yellow<<4 | 1<<0;
 	}
@@ -162,7 +162,7 @@ void Yellow_callback(void)
 
 void Blue_callback(void)
 {
-	int8_t dado=0x0F;
+	int8_t dado = 0;
 	if(!pio_get(Blue_PIO, PIO_INPUT, PIO_PA0)){
 		dado = ID_Blue<<4 | 1<<0;
 	}
@@ -175,7 +175,7 @@ void Blue_callback(void)
 
 void Orange_callback(void)
 {
-	int8_t dado=0x0F;
+	int8_t dado = 0;
 	if(!pio_get(Orange_PIO, PIO_INPUT, PIO_PD28)){
 		dado = ID_Orange<<4 | 1<<0;
 	}
@@ -333,13 +333,11 @@ int hc05_server_init(void) {
 /************************************************************************/
 
 void task_bluetooth(void){
-  
   xQueueBt = xQueueCreate(10, sizeof(int8_t));
   
   hc05_config_server();
   hc05_server_init();
   io_init();
-  
   
   while(1){
 	int8_t send_char = 0;  
@@ -347,10 +345,17 @@ void task_bluetooth(void){
 		while(!usart_is_tx_ready(USART_COM));
 		usart_write(USART_COM, send_char);	
 		while(!usart_is_tx_ready(USART_COM));
-		usart_write(USART_COM, 'X');
-		
+		usart_write(USART_COM, 'X');	
 	}
   }
+}
+
+void task_afec(void){
+	config_ADC_TEMP();
+	while(true){
+		afec_start_software_conversion(AFEC0);
+		vTaskDelay(4000);
+	}
 }
 
 /************************************************************************/
@@ -366,8 +371,8 @@ int main(void){
 	configure_console();
 
 	/* Create task to make led blink */
-	xTaskCreate(task_bluetooth, "BLT", TASK_PROCESS_STACK_SIZE, NULL,	TASK_PROCESS_STACK_PRIORITY, NULL);
-  
+	xTaskCreate(task_bluetooth, "BLT", TASK_PROCESS_STACK_SIZE, NULL, TASK_PROCESS_STACK_PRIORITY, NULL);
+    xTaskCreate(task_afec, "AFEC", TASK_PROCESS_STACK_SIZE, NULL, TASK_PROCESS_STACK_PRIORITY, NULL);
 	/* Start the scheduler. */
 	vTaskStartScheduler();
 
