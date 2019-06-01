@@ -42,12 +42,13 @@
 #define Orange_IDX  28
 #define Orange_IDX_MASK (1 << Orange_IDX)
 
-int ID_Green = 0001;
+int ID_Green = 1;
 #define ID_Red 2
 #define ID_Yellow 3
 #define ID_Blue 4
 #define ID_Orange 5
 
+#define AFEC_CHANNEL_TEMP_SENSOR 5
 
 // usart (bluetooth)
 #define USART_COM_ID ID_USART0
@@ -56,6 +57,9 @@ int ID_Green = 0001;
 /** RTOS  */
 #define TASK_PROCESS_STACK_SIZE            (4096/sizeof(portSTACK_TYPE))
 #define TASK_PROCESS_STACK_PRIORITY        (tskIDLE_PRIORITY)
+
+#define TASK_AFEC_STACK_SIZE            (4096/sizeof(portSTACK_TYPE))
+#define TASK_AFEC_STACK_PRIORITY        (configMAX_PRIORITIES-1)
 
 extern void vApplicationStackOverflowHook(xTaskHandle *pxTask, signed char *pcTaskName);
 extern void vApplicationIdleHook(void);
@@ -328,6 +332,59 @@ int hc05_server_init(void) {
   usart_send_command(USART1, buffer_rx, 1000, "AT+PIN0000", 1000);
 }
 
+static void AFEC_Temp_callback(void)
+{
+	uint8_t g_ul_value = afec_channel_get_value(AFEC0, AFEC_CHANNEL_TEMP_SENSOR)/100;
+	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+	xQueueSendFromISR(xQueueBt, &(g_ul_value), &xHigherPriorityTaskWoken);
+}
+
+static void config_ADC_TEMP(void){
+/*************************************
+   * Ativa e configura AFEC
+   *************************************/
+  /* Ativa AFEC - 0 */
+	afec_enable(AFEC0);
+
+	/* struct de configuracao do AFEC */
+	struct afec_config afec_cfg;
+
+	/* Carrega parametros padrao */
+	afec_get_config_defaults(&afec_cfg);
+
+	/* Configura AFEC */
+	afec_init(AFEC0, &afec_cfg);
+
+	/* Configura trigger por software */
+	afec_set_trigger(AFEC0, AFEC_TRIG_SW);
+
+	/* configura call back */
+	afec_set_callback(AFEC0, AFEC_INTERRUPT_EOC_5,	AFEC_Temp_callback, 5);
+
+	/*** Configuracao espec?fica do canal AFEC ***/
+	struct afec_ch_config afec_ch_cfg;
+	afec_ch_get_config_defaults(&afec_ch_cfg);
+	afec_ch_cfg.gain = AFEC_GAINVALUE_0;
+	afec_ch_set_config(AFEC0, AFEC_CHANNEL_TEMP_SENSOR, &afec_ch_cfg);
+
+	/*
+	* Calibracao:
+	* Because the internal ADC offset is 0x200, it should cancel it and shift
+	 down to 0.
+	 */
+	afec_channel_set_analog_offset(AFEC0, AFEC_CHANNEL_TEMP_SENSOR, 0x200);
+
+	/***  Configura sensor de temperatura ***/
+	struct afec_temp_sensor_config afec_temp_sensor_cfg;
+
+	afec_temp_sensor_get_config_defaults(&afec_temp_sensor_cfg);
+	afec_temp_sensor_set_config(AFEC0, &afec_temp_sensor_cfg);
+
+	/* Selecina canal e inicializa convers?o */
+	afec_channel_enable(AFEC0, AFEC_CHANNEL_TEMP_SENSOR);
+}
+
+
 /************************************************************************/
 /* TASKS                                                                */
 /************************************************************************/
@@ -354,7 +411,7 @@ void task_afec(void){
 	config_ADC_TEMP();
 	while(true){
 		afec_start_software_conversion(AFEC0);
-		vTaskDelay(4000);
+		vTaskDelay(50/portTICK_PERIOD_MS);
 	}
 }
 
@@ -372,7 +429,8 @@ int main(void){
 
 	/* Create task to make led blink */
 	xTaskCreate(task_bluetooth, "BLT", TASK_PROCESS_STACK_SIZE, NULL, TASK_PROCESS_STACK_PRIORITY, NULL);
-    xTaskCreate(task_afec, "AFEC", TASK_PROCESS_STACK_SIZE, NULL, TASK_PROCESS_STACK_PRIORITY, NULL);
+    xTaskCreate(task_afec, "AFEC", TASK_AFEC_STACK_SIZE, NULL, TASK_AFEC_STACK_PRIORITY, NULL);
+	
 	/* Start the scheduler. */
 	vTaskStartScheduler();
 
