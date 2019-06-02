@@ -42,11 +42,14 @@
 #define Orange_IDX  28
 #define Orange_IDX_MASK (1 << Orange_IDX)
 
-int ID_Green = 1;
+#define ID_Green 1
 #define ID_Red 2
 #define ID_Yellow 3
 #define ID_Blue 4
 #define ID_Orange 5
+#define Palheta_up 6
+#define Palheta_down 7
+#define ID_Afec 8
 
 #define AFEC_CHANNEL_TEMP_SENSOR 5
 
@@ -74,7 +77,6 @@ static void USART1_init(void);
 uint32_t usart_puts(uint8_t *pstring);
 
 QueueHandle_t xQueueBt;
-volatile uint32_t g_tcCv = 0;
 
 
 /************************************************************************/
@@ -335,8 +337,9 @@ int hc05_server_init(void) {
 static void AFEC_Temp_callback(void)
 {
 	uint8_t g_ul_value = afec_channel_get_value(AFEC0, AFEC_CHANNEL_TEMP_SENSOR)/100;
+	uint8_t dado = ID_Afec << 4 | g_ul_value << 0;
 	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-	xQueueSendFromISR(xQueueBt, &(g_ul_value), &xHigherPriorityTaskWoken);
+	xQueueSendFromISR(xQueueBt, &(dado), &xHigherPriorityTaskWoken);
 }
 
 static void config_ADC_TEMP(void){
@@ -411,7 +414,7 @@ void task_afec(void){
 	config_ADC_TEMP();
 	while(true){
 		afec_start_software_conversion(AFEC0);
-		vTaskDelay(50/portTICK_PERIOD_MS);
+		vTaskDelay(500/portTICK_PERIOD_MS);
 	}
 }
 

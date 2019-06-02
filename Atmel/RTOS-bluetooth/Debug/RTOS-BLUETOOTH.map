@@ -8795,7 +8795,6 @@ Discarded input sections
                 0x00000000        0x4 src/main.o
  .bss.cpu_irq_prev_interrupt_state
                 0x00000000        0x1 src/main.o
- .bss.g_tcCv    0x00000000        0x4 src/main.o
  .debug_macro   0x00000000      0x8d4 src/main.o
  .debug_macro   0x00000000      0x16d src/main.o
  .debug_macro   0x00000000      0x64b src/main.o
@@ -9797,74 +9796,73 @@ LOAD c:/program files (x86)/atmel/studio/7.0/toolchain/arm/arm-gnu-toolchain/bin
                 0x00402e38       0x50 src/main.o
                 0x00402e38                Orange_callback
  .text.AFEC_Temp_callback
-                0x00402e88       0x40 src/main.o
+                0x00402e88       0x44 src/main.o
  .text.usart_serial_putchar
-                0x00402ec8       0xd4 src/main.o
+                0x00402ecc       0xd4 src/main.o
  .text.task_afec
-                0x00402f9c       0xa0 src/main.o
-                0x00402f9c                task_afec
+                0x00402fa0       0xa0 src/main.o
+                0x00402fa0                task_afec
  .text.usart_serial_getchar
-                0x0040303c       0xdc src/main.o
+                0x00403040       0xdc src/main.o
  .text.vApplicationStackOverflowHook
-                0x00403118       0x18 src/main.o
-                0x00403118                vApplicationStackOverflowHook
+                0x0040311c       0x18 src/main.o
+                0x0040311c                vApplicationStackOverflowHook
  .text.vApplicationTickHook
-                0x00403130        0x2 src/main.o
-                0x00403130                vApplicationTickHook
+                0x00403134        0x2 src/main.o
+                0x00403134                vApplicationTickHook
  .text.vApplicationMallocFailedHook
-                0x00403132       0x16 src/main.o
-                0x00403132                vApplicationMallocFailedHook
- .text.io_init  0x00403148      0x194 src/main.o
-                0x00403148                io_init
+                0x00403136       0x16 src/main.o
+                0x00403136                vApplicationMallocFailedHook
+ .text.io_init  0x0040314c      0x194 src/main.o
+                0x0040314c                io_init
  .text.usart_put_string
-                0x004032dc       0x20 src/main.o
-                0x004032dc                usart_put_string
+                0x004032e0       0x20 src/main.o
+                0x004032e0                usart_put_string
  .text.usart_get_string
-                0x004032fc       0x58 src/main.o
-                0x004032fc                usart_get_string
+                0x00403300       0x58 src/main.o
+                0x00403300                usart_get_string
  .text.usart_send_command
-                0x00403354       0x24 src/main.o
-                0x00403354                usart_send_command
+                0x00403358       0x24 src/main.o
+                0x00403358                usart_send_command
  .text.hc05_config_server
-                0x00403378       0x84 src/main.o
-                0x00403378                hc05_config_server
+                0x0040337c       0x84 src/main.o
+                0x0040337c                hc05_config_server
  .text.hc05_server_init
-                0x004033fc       0x64 src/main.o
-                0x004033fc                hc05_server_init
+                0x00403400       0x64 src/main.o
+                0x00403400                hc05_server_init
  .text.task_bluetooth
-                0x00403460       0x84 src/main.o
-                0x00403460                task_bluetooth
- .text.main     0x004034e4       0xf4 src/main.o
-                0x004034e4                main
+                0x00403464       0x84 src/main.o
+                0x00403464                task_bluetooth
+ .text.main     0x004034e8       0xf4 src/main.o
+                0x004034e8                main
  .text.__libc_init_array
-                0x004035d8       0x50 c:/program files (x86)/atmel/studio/7.0/toolchain/arm/arm-gnu-toolchain/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m\libc.a(lib_a-init.o)
-                0x004035d8                __libc_init_array
- .text.iprintf  0x00403628       0x28 c:/program files (x86)/atmel/studio/7.0/toolchain/arm/arm-gnu-toolchain/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m\libc.a(lib_a-iprintf.o)
-                0x00403628                iprintf
- .text.malloc   0x00403650       0x10 c:/program files (x86)/atmel/studio/7.0/toolchain/arm/arm-gnu-toolchain/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m\libc.a(lib_a-malloc.o)
-                0x00403650                malloc
- .text.free     0x00403660       0x10 c:/program files (x86)/atmel/studio/7.0/toolchain/arm/arm-gnu-toolchain/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m\libc.a(lib_a-malloc.o)
-                0x00403660                free
+                0x004035dc       0x50 c:/program files (x86)/atmel/studio/7.0/toolchain/arm/arm-gnu-toolchain/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m\libc.a(lib_a-init.o)
+                0x004035dc                __libc_init_array
+ .text.iprintf  0x0040362c       0x28 c:/program files (x86)/atmel/studio/7.0/toolchain/arm/arm-gnu-toolchain/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m\libc.a(lib_a-iprintf.o)
+                0x0040362c                iprintf
+ .text.malloc   0x00403654       0x10 c:/program files (x86)/atmel/studio/7.0/toolchain/arm/arm-gnu-toolchain/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m\libc.a(lib_a-malloc.o)
+                0x00403654                malloc
+ .text.free     0x00403664       0x10 c:/program files (x86)/atmel/studio/7.0/toolchain/arm/arm-gnu-toolchain/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m\libc.a(lib_a-malloc.o)
+                0x00403664                free
  .text._malloc_r
-                0x00403670      0x560 c:/program files (x86)/atmel/studio/7.0/toolchain/arm/arm-gnu-toolchain/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m\libc.a(lib_a-mallocr.o)
-                0x00403670                _malloc_r
- .text          0x00403bd0      0x134 c:/program files (x86)/atmel/studio/7.0/toolchain/arm/arm-gnu-toolchain/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m\libc.a(lib_a-memcpy.o)
-                0x00403bd0                memcpy
- .text.memset   0x00403d04       0x9c c:/program files (x86)/atmel/studio/7.0/toolchain/arm/arm-gnu-toolchain/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m\libc.a(lib_a-memset.o)
-                0x00403d04                memset
+                0x00403674      0x560 c:/program files (x86)/atmel/studio/7.0/toolchain/arm/arm-gnu-toolchain/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m\libc.a(lib_a-mallocr.o)
+                0x00403674                _malloc_r
+ .text          0x00403bd4      0x134 c:/program files (x86)/atmel/studio/7.0/toolchain/arm/arm-gnu-toolchain/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m\libc.a(lib_a-memcpy.o)
+                0x00403bd4                memcpy
+ .text.memset   0x00403d08       0x9c c:/program files (x86)/atmel/studio/7.0/toolchain/arm/arm-gnu-toolchain/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m\libc.a(lib_a-memset.o)
+                0x00403d08                memset
  .text.__malloc_lock
-                0x00403da0        0xc c:/program files (x86)/atmel/studio/7.0/toolchain/arm/arm-gnu-toolchain/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m\libc.a(lib_a-mlock.o)
-                0x00403da0                __malloc_lock
+                0x00403da4        0xc c:/program files (x86)/atmel/studio/7.0/toolchain/arm/arm-gnu-toolchain/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m\libc.a(lib_a-mlock.o)
+                0x00403da4                __malloc_lock
  .text.__malloc_unlock
-                0x00403dac        0xc c:/program files (x86)/atmel/studio/7.0/toolchain/arm/arm-gnu-toolchain/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m\libc.a(lib_a-mlock.o)
-                0x00403dac                __malloc_unlock
- .text._sbrk_r  0x00403db8       0x24 c:/program files (x86)/atmel/studio/7.0/toolchain/arm/arm-gnu-toolchain/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m\libc.a(lib_a-sbrkr.o)
-                0x00403db8                _sbrk_r
- .text.setbuf   0x00403ddc       0x10 c:/program files (x86)/atmel/studio/7.0/toolchain/arm/arm-gnu-toolchain/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m\libc.a(lib_a-setbuf.o)
-                0x00403ddc                setbuf
- .text.setvbuf  0x00403dec      0x190 c:/program files (x86)/atmel/studio/7.0/toolchain/arm/arm-gnu-toolchain/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m\libc.a(lib_a-setvbuf.o)
-                0x00403dec                setvbuf
- *fill*         0x00403f7c        0x4 
+                0x00403db0        0xc c:/program files (x86)/atmel/studio/7.0/toolchain/arm/arm-gnu-toolchain/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m\libc.a(lib_a-mlock.o)
+                0x00403db0                __malloc_unlock
+ .text._sbrk_r  0x00403dbc       0x24 c:/program files (x86)/atmel/studio/7.0/toolchain/arm/arm-gnu-toolchain/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m\libc.a(lib_a-sbrkr.o)
+                0x00403dbc                _sbrk_r
+ .text.setbuf   0x00403de0       0x10 c:/program files (x86)/atmel/studio/7.0/toolchain/arm/arm-gnu-toolchain/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m\libc.a(lib_a-setbuf.o)
+                0x00403de0                setbuf
+ .text.setvbuf  0x00403df0      0x190 c:/program files (x86)/atmel/studio/7.0/toolchain/arm/arm-gnu-toolchain/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m\libc.a(lib_a-setvbuf.o)
+                0x00403df0                setvbuf
  .text          0x00403f80       0xdc c:/program files (x86)/atmel/studio/7.0/toolchain/arm/arm-gnu-toolchain/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m\libc.a(lib_a-strlen.o)
                 0x00403f80                strlen
  .text.__sprint_r.part.0
@@ -10467,7 +10465,7 @@ OUTPUT(RTOS-BLUETOOTH.elf elf32-littlearm)
  .comment       0x00000059       0x5a src/ASF/thirdparty/freertos/freertos-8.2.3/Source/timers.o
  .comment       0x00000059       0x5a src/main.o
 
-.debug_info     0x00000000    0x21fbb
+.debug_info     0x00000000    0x21fb9
  .debug_info    0x00000000     0x1267 src/ASF/common/services/clock/same70/sysclk.o
  .debug_info    0x00001267     0x10c5 src/ASF/common/services/serial/usart_serial.o
  .debug_info    0x0000232c      0xa8e src/ASF/common/services/sleepmgr/sam/sleepmgr.o
@@ -10490,7 +10488,7 @@ OUTPUT(RTOS-BLUETOOTH.elf elf32-littlearm)
  .debug_info    0x00016f71     0x26ec src/ASF/thirdparty/freertos/freertos-8.2.3/Source/queue.o
  .debug_info    0x0001965d     0x34b4 src/ASF/thirdparty/freertos/freertos-8.2.3/Source/tasks.o
  .debug_info    0x0001cb11     0x1b3e src/ASF/thirdparty/freertos/freertos-8.2.3/Source/timers.o
- .debug_info    0x0001e64f     0x396c src/main.o
+ .debug_info    0x0001e64f     0x396a src/main.o
 
 .debug_abbrev   0x00000000     0x458f
  .debug_abbrev  0x00000000      0x31f src/ASF/common/services/clock/same70/sysclk.o
@@ -10517,7 +10515,7 @@ OUTPUT(RTOS-BLUETOOTH.elf elf32-littlearm)
  .debug_abbrev  0x00003cd0      0x3ce src/ASF/thirdparty/freertos/freertos-8.2.3/Source/timers.o
  .debug_abbrev  0x0000409e      0x4f1 src/main.o
 
-.debug_loc      0x00000000     0x9bf3
+.debug_loc      0x00000000     0x9c11
  .debug_loc     0x00000000      0x183 src/ASF/common/services/clock/same70/sysclk.o
  .debug_loc     0x00000183      0x2a7 src/ASF/common/services/serial/usart_serial.o
  .debug_loc     0x0000042a       0xb3 src/ASF/common/utils/stdio/read.o
@@ -10537,7 +10535,7 @@ OUTPUT(RTOS-BLUETOOTH.elf elf32-littlearm)
  .debug_loc     0x000049b1     0x173f src/ASF/thirdparty/freertos/freertos-8.2.3/Source/queue.o
  .debug_loc     0x000060f0     0x20bd src/ASF/thirdparty/freertos/freertos-8.2.3/Source/tasks.o
  .debug_loc     0x000081ad      0xd26 src/ASF/thirdparty/freertos/freertos-8.2.3/Source/timers.o
- .debug_loc     0x00008ed3      0xd20 src/main.o
+ .debug_loc     0x00008ed3      0xd3e src/main.o
 
 .debug_aranges  0x00000000      0xf40
  .debug_aranges
@@ -10611,7 +10609,7 @@ OUTPUT(RTOS-BLUETOOTH.elf elf32-littlearm)
  .debug_ranges  0x00000f60       0xc0 src/ASF/thirdparty/freertos/freertos-8.2.3/Source/timers.o
  .debug_ranges  0x00001020       0xd0 src/main.o
 
-.debug_macro    0x00000000    0x229d9
+.debug_macro    0x00000000    0x229eb
  .debug_macro   0x00000000      0x6d1 src/ASF/common/services/clock/same70/sysclk.o
  .debug_macro   0x000006d1      0x8d4 src/ASF/common/services/clock/same70/sysclk.o
  .debug_macro   0x00000fa5      0x64b src/ASF/common/services/clock/same70/sysclk.o
@@ -10804,16 +10802,16 @@ OUTPUT(RTOS-BLUETOOTH.elf elf32-littlearm)
  .debug_macro   0x00020c87      0x785 src/ASF/thirdparty/freertos/freertos-8.2.3/Source/tasks.o
  .debug_macro   0x0002140c       0x10 src/ASF/thirdparty/freertos/freertos-8.2.3/Source/tasks.o
  .debug_macro   0x0002141c      0x706 src/ASF/thirdparty/freertos/freertos-8.2.3/Source/timers.o
- .debug_macro   0x00021b22      0x9dc src/main.o
- .debug_macro   0x000224fe       0x28 src/main.o
- .debug_macro   0x00022526       0x23 src/main.o
- .debug_macro   0x00022549      0x149 src/main.o
- .debug_macro   0x00022692       0x7f src/main.o
- .debug_macro   0x00022711       0x40 src/main.o
- .debug_macro   0x00022751       0x88 src/main.o
- .debug_macro   0x000227d9      0x1ce src/main.o
- .debug_macro   0x000229a7       0x16 src/main.o
- .debug_macro   0x000229bd       0x1c src/main.o
+ .debug_macro   0x00021b22      0x9ee src/main.o
+ .debug_macro   0x00022510       0x28 src/main.o
+ .debug_macro   0x00022538       0x23 src/main.o
+ .debug_macro   0x0002255b      0x149 src/main.o
+ .debug_macro   0x000226a4       0x7f src/main.o
+ .debug_macro   0x00022723       0x40 src/main.o
+ .debug_macro   0x00022763       0x88 src/main.o
+ .debug_macro   0x000227eb      0x1ce src/main.o
+ .debug_macro   0x000229b9       0x16 src/main.o
+ .debug_macro   0x000229cf       0x1c src/main.o
 
 .debug_line     0x00000000    0x12381
  .debug_line    0x00000000      0xb4f src/ASF/common/services/clock/same70/sysclk.o
@@ -10840,7 +10838,7 @@ OUTPUT(RTOS-BLUETOOTH.elf elf32-littlearm)
  .debug_line    0x00010257      0xdaf src/ASF/thirdparty/freertos/freertos-8.2.3/Source/timers.o
  .debug_line    0x00011006     0x137b src/main.o
 
-.debug_str      0x00000000    0x94827
+.debug_str      0x00000000    0x94846
  .debug_str     0x00000000    0x85ee8 src/ASF/common/services/clock/same70/sysclk.o
                               0x865bd (size before relaxing)
  .debug_str     0x00085ee8      0x576 src/ASF/common/services/serial/usart_serial.o
@@ -10885,8 +10883,8 @@ OUTPUT(RTOS-BLUETOOTH.elf elf32-littlearm)
                               0x8ac86 (size before relaxing)
  .debug_str     0x00091c76      0x483 src/ASF/thirdparty/freertos/freertos-8.2.3/Source/timers.o
                               0x8a70d (size before relaxing)
- .debug_str     0x000920f9     0x272e src/main.o
-                              0x8f179 (size before relaxing)
+ .debug_str     0x000920f9     0x274d src/main.o
+                              0x8f198 (size before relaxing)
 
 .debug_frame    0x00000000     0x31b8
  .debug_frame   0x00000000       0x88 src/ASF/common/services/clock/same70/sysclk.o
@@ -11481,7 +11479,6 @@ g_interrupt_enabled                               src/ASF/common/utils/interrupt
                                                   src/ASF/sam/drivers/pmc/sleep.o
                                                   src/ASF/sam/drivers/mpu/mpu.o
                                                   src/ASF/sam/drivers/afec/afec.o
-g_tcCv                                            src/main.o
 hardware_init_hook                                c:/program files (x86)/atmel/studio/7.0/toolchain/arm/arm-gnu-toolchain/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/crt0.o
 hc05_config_server                                src/main.o
 hc05_server_init                                  src/main.o
