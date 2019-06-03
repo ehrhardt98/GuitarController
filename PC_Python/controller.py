@@ -28,16 +28,19 @@ class SerialControllerInterface:
         data = self.ser.read(2)
         logging.debug("Received DATA: {}".format(data))
         data_str = bytearray(data)
-        #data_str = bytearray(data).decode('ascii')
-        #logging.debug("data_str:{}".format(data_str)) # rodar com -d para debug
         
         sinal, Xis = data_str
-        cores = ["verde","vermelho","amarelo","azul", "laranja", "palheta up", "palheta down", "whammy"]
+        cores = ["verde","vermelho","amarelo","azul", "laranja", "palheta_up", "palheta_down", "whammy"]
         
         num = sinal >> 4 # id do botão apertado
         valor = sinal & 15
-        
-        print(cores[num-1], valor)
+        if(cores[num-1] == "whammy"):
+            if valor > 4:
+                self.j.set_button(self.mapping.botoes["whammy"], 1)
+            else:
+                self.j.set_button(self.mapping.botoes["whammy"], 0)
+        else:
+            self.j.set_button(self.mapping.botoes[cores[num-1]], valor)
 
 if __name__ == '__main__':
     interfaces = ['dummy', 'serial']
