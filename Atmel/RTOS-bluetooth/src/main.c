@@ -70,10 +70,10 @@
 #define USART_COM    USART0
 
 /** RTOS  */
-#define TASK_PROCESS_STACK_SIZE            (5*1024/sizeof(portSTACK_TYPE))
+#define TASK_PROCESS_STACK_SIZE            (6*1024/sizeof(portSTACK_TYPE))
 #define TASK_PROCESS_STACK_PRIORITY        (tskIDLE_PRIORITY)
 
-#define TASK_AFEC_STACK_SIZE            (4096/sizeof(portSTACK_TYPE))
+#define TASK_AFEC_STACK_SIZE            (2*1024/sizeof(portSTACK_TYPE))
 #define TASK_AFEC_STACK_PRIORITY        (configMAX_PRIORITIES-1)
 
 extern void vApplicationStackOverflowHook(xTaskHandle *pxTask, signed char *pcTaskName);
@@ -443,7 +443,7 @@ static void config_ADC_TEMP(void){
 /************************************************************************/
 
 void task_bluetooth(void){
-  xQueueBt = xQueueCreate(15, sizeof(int8_t));
+  xQueueBt = xQueueCreate(20, sizeof(int8_t));
   
   hc05_config_server();
   hc05_server_init();
