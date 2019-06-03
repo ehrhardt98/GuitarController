@@ -42,13 +42,25 @@
 #define Orange_IDX  28
 #define Orange_IDX_MASK (1 << Orange_IDX)
 
+// Palheta up
+#define Palhetaup_PIO      PIOA
+#define Palhetaup_PIO_ID   ID_PIOA
+#define Palhetaup_IDX  3
+#define Palhetaup_IDX_MASK (1 << Palhetaup_IDX)
+
+// Palheta down
+#define Palhetadown_PIO      PIOC
+#define Palhetadown_PIO_ID   ID_PIOC
+#define Palhetadown_IDX  17
+#define Palhetadown_IDX_MASK (1 << Palhetadown_IDX)
+
 #define ID_Green 1
 #define ID_Red 2
 #define ID_Yellow 3
 #define ID_Blue 4
 #define ID_Orange 5
-#define Palheta_up 6
-#define Palheta_down 7
+#define ID_Palhetaup 6
+#define ID_Palhetadown 7
 #define ID_Afec 8
 
 #define AFEC_CHANNEL_TEMP_SENSOR 5
@@ -58,7 +70,7 @@
 #define USART_COM    USART0
 
 /** RTOS  */
-#define TASK_PROCESS_STACK_SIZE            (4096/sizeof(portSTACK_TYPE))
+#define TASK_PROCESS_STACK_SIZE            (5*1024/sizeof(portSTACK_TYPE))
 #define TASK_PROCESS_STACK_PRIORITY        (tskIDLE_PRIORITY)
 
 #define TASK_AFEC_STACK_SIZE            (4096/sizeof(portSTACK_TYPE))
@@ -77,7 +89,6 @@ static void USART1_init(void);
 uint32_t usart_puts(uint8_t *pstring);
 
 QueueHandle_t xQueueBt;
-
 
 /************************************************************************/
 /* RTOS application funcs                                               */
@@ -137,7 +148,7 @@ void Green_callback(void)
 		dado = ID_Green<<4 | 0<<0;
 	}
 	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-	xQueueSendFromISR(xQueueBt, &(dado), &xHigherPriorityTaskWoken);
+	xQueueSendFromISR(xQueueBt, &dado, &xHigherPriorityTaskWoken);
 }
 
 void Red_callback(void)
@@ -150,7 +161,7 @@ void Red_callback(void)
 		dado = ID_Red<<4 | 0<<0;
 	}
 	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-	xQueueSendFromISR(xQueueBt, &(dado), &xHigherPriorityTaskWoken);
+	xQueueSendFromISR(xQueueBt, &dado, &xHigherPriorityTaskWoken);
 }
 
 void Yellow_callback(void)
@@ -163,7 +174,7 @@ void Yellow_callback(void)
 		dado = ID_Yellow<<4 | 0<<0;
 	}
 	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-	xQueueSendFromISR(xQueueBt, &(dado), &xHigherPriorityTaskWoken);
+	xQueueSendFromISR(xQueueBt, &dado, &xHigherPriorityTaskWoken);
 }
 
 void Blue_callback(void)
@@ -176,7 +187,7 @@ void Blue_callback(void)
 		dado = ID_Blue<<4 | 0<<0;
 	}
 	BaseType_t xHigherPriorityTaskWoken = pdFALSE;	
-	xQueueSendFromISR(xQueueBt, &(dado), &xHigherPriorityTaskWoken);
+	xQueueSendFromISR(xQueueBt, &dado, &xHigherPriorityTaskWoken);
 }
 
 void Orange_callback(void)
@@ -189,8 +200,44 @@ void Orange_callback(void)
 		dado = ID_Orange<<4 | 0<<0;
 	}
 	BaseType_t xHigherPriorityTaskWoken = pdFALSE;	
-	xQueueSendFromISR(xQueueBt, &(dado), &xHigherPriorityTaskWoken);
+	xQueueSendFromISR(xQueueBt, &dado, &xHigherPriorityTaskWoken);
 }
+
+void Palhetaup_callback(void)
+{
+	int8_t dado = 0;
+	if(!pio_get(Palhetaup_PIO, PIO_INPUT, PIO_PA3)){
+		dado = ID_Palhetaup << 4 | 1<<0;
+	}
+	else{
+		dado = ID_Palhetaup << 4 | 0<<0;
+	}
+	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+	xQueueSendFromISR(xQueueBt, &dado, &xHigherPriorityTaskWoken);
+}
+
+void Palhetadown_callback(void)
+{
+	int8_t dado = 0;
+	if(!pio_get(Palhetadown_PIO, PIO_INPUT, PIO_PC17)){
+		dado = ID_Palhetadown << 4 | 1<<0;
+	}
+	else{
+		dado = ID_Palhetadown << 4 | 0<<0;
+	}
+	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+	xQueueSendFromISR(xQueueBt, &dado, &xHigherPriorityTaskWoken);
+}
+
+static void AFEC_Callback(void)
+{
+	uint8_t g_ul_value = afec_channel_get_value(AFEC0, AFEC_CHANNEL_TEMP_SENSOR)/100;
+	uint8_t dado = ID_Afec << 4 | (g_ul_value & 0b1111) << 0;
+	
+	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+	xQueueSendFromISR(xQueueBt, &dado, &xHigherPriorityTaskWoken);
+}
+
 /************************************************************************/
 /* funcoes                                                              */
 /************************************************************************/
@@ -233,15 +280,13 @@ uint32_t usart_puts(uint8_t *pstring){
 }
 
 void io_init(void){
-	// Configura led
-	pmc_enable_periph_clk(LED_PIO_ID);
-	pio_configure(LED_PIO, PIO_OUTPUT_0, LED_IDX_MASK, PIO_DEFAULT);
-
 	pmc_enable_periph_clk(Green_PIO_ID);
 	pmc_enable_periph_clk(Red_PIO_ID);
 	pmc_enable_periph_clk(Yellow_PIO_ID);
 	pmc_enable_periph_clk(Blue_PIO_ID);
 	pmc_enable_periph_clk(Orange_PIO_ID);
+	pmc_enable_periph_clk(Palhetaup_PIO_ID);
+	pmc_enable_periph_clk(Palhetadown_PIO_ID);
 
 	pio_configure(Green_PIO, PIO_INPUT, Green_IDX_MASK, PIO_PULLUP | PIO_DEBOUNCE);
 	pio_set_debounce_filter(Green_PIO, Green_IDX_MASK, 20);
@@ -253,18 +298,26 @@ void io_init(void){
 	pio_set_debounce_filter(Blue_PIO, Blue_IDX_MASK, 20);
 	pio_configure(Orange_PIO, PIO_INPUT, Orange_IDX_MASK, PIO_PULLUP | PIO_DEBOUNCE);
 	pio_set_debounce_filter(Orange_PIO, Orange_IDX_MASK, 20);
-
+	pio_configure(Palhetaup_PIO, PIO_INPUT, Palhetaup_IDX_MASK, PIO_PULLUP | PIO_DEBOUNCE);
+	pio_set_debounce_filter(Palhetaup_PIO, Palhetaup_IDX_MASK, 20);
+	pio_configure(Palhetadown_PIO, PIO_INPUT, Palhetadown_IDX_MASK, PIO_PULLUP | PIO_DEBOUNCE);
+	pio_set_debounce_filter(Palhetadown_PIO, Palhetadown_IDX_MASK, 20);
+	
 	pio_handler_set(Green_PIO,Green_PIO_ID,Green_IDX_MASK,PIO_IT_EDGE,Green_callback);
 	pio_handler_set(Red_PIO,Red_PIO_ID,Red_IDX_MASK,PIO_IT_EDGE,Red_callback);
 	pio_handler_set(Yellow_PIO,Yellow_PIO_ID,Yellow_IDX_MASK,PIO_IT_EDGE,Yellow_callback);
 	pio_handler_set(Blue_PIO,Blue_PIO_ID,Blue_IDX_MASK,PIO_IT_EDGE,Blue_callback);
 	pio_handler_set(Orange_PIO,Orange_PIO_ID,Orange_IDX_MASK,PIO_IT_EDGE,Orange_callback);
+	pio_handler_set(Palhetaup_PIO,Palhetaup_PIO_ID,Palhetaup_IDX_MASK,PIO_IT_EDGE,Palhetaup_callback);
+	pio_handler_set(Palhetadown_PIO,Palhetadown_PIO_ID,Palhetadown_IDX_MASK,PIO_IT_EDGE,Palhetadown_callback);
 
 	pio_enable_interrupt(Green_PIO, Green_IDX_MASK);
 	pio_enable_interrupt(Red_PIO, Red_IDX_MASK);
 	pio_enable_interrupt(Yellow_PIO, Yellow_IDX_MASK);
 	pio_enable_interrupt(Blue_PIO, Blue_IDX_MASK);
 	pio_enable_interrupt(Orange_PIO, Orange_IDX_MASK);
+	pio_enable_interrupt(Palhetaup_PIO, Palhetaup_IDX_MASK);
+	pio_enable_interrupt(Palhetadown_PIO, Palhetadown_IDX_MASK);
 
 	NVIC_EnableIRQ(Green_PIO_ID);
 	NVIC_SetPriority(Green_PIO_ID, 4); // Prioridade 4
@@ -280,6 +333,12 @@ void io_init(void){
 	
 	NVIC_EnableIRQ(Orange_PIO_ID);
 	NVIC_SetPriority(Orange_PIO_ID, 4); // Prioridade 4
+	
+	NVIC_EnableIRQ(Palhetaup_PIO_ID);
+	NVIC_SetPriority(Palhetaup_PIO_ID, 4); // Prioridade 4
+	
+	NVIC_EnableIRQ(Palhetadown_PIO_ID);
+	NVIC_SetPriority(Palhetadown_PIO_ID, 4); // Prioridade 4
 }
 
 void usart_put_string(Usart *usart, char str[]) {
@@ -334,14 +393,6 @@ int hc05_server_init(void) {
   usart_send_command(USART1, buffer_rx, 1000, "AT+PIN0000", 1000);
 }
 
-static void AFEC_Temp_callback(void)
-{
-	uint8_t g_ul_value = afec_channel_get_value(AFEC0, AFEC_CHANNEL_TEMP_SENSOR)/100;
-	uint8_t dado = ID_Afec << 4 | g_ul_value << 0;
-	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-	xQueueSendFromISR(xQueueBt, &(dado), &xHigherPriorityTaskWoken);
-}
-
 static void config_ADC_TEMP(void){
 /*************************************
    * Ativa e configura AFEC
@@ -362,7 +413,7 @@ static void config_ADC_TEMP(void){
 	afec_set_trigger(AFEC0, AFEC_TRIG_SW);
 
 	/* configura call back */
-	afec_set_callback(AFEC0, AFEC_INTERRUPT_EOC_5,	AFEC_Temp_callback, 5);
+	afec_set_callback(AFEC0, AFEC_INTERRUPT_EOC_5,	AFEC_Callback, 5);
 
 	/*** Configuracao espec?fica do canal AFEC ***/
 	struct afec_ch_config afec_ch_cfg;
@@ -387,13 +438,12 @@ static void config_ADC_TEMP(void){
 	afec_channel_enable(AFEC0, AFEC_CHANNEL_TEMP_SENSOR);
 }
 
-
 /************************************************************************/
 /* TASKS                                                                */
 /************************************************************************/
 
 void task_bluetooth(void){
-  xQueueBt = xQueueCreate(10, sizeof(int8_t));
+  xQueueBt = xQueueCreate(15, sizeof(int8_t));
   
   hc05_config_server();
   hc05_server_init();

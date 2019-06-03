@@ -9,7 +9,6 @@ class MyControllerMap:
         self.botoes = {'verde': 1, 'vermelho': 2, 'amarelo': 3, 'azul': 4, 'laranja': 5, 'palheta_down': 6, 'palheta_up': 7, 'whammy': 8}
 
 class SerialControllerInterface:
-
     # Protocolo
     # byte 1 -> ID << 4 | sinal << 0
     # byte 2 -> EOP - End of Packet -> valor reservado 'X'
@@ -31,18 +30,14 @@ class SerialControllerInterface:
         data_str = bytearray(data)
         #data_str = bytearray(data).decode('ascii')
         #logging.debug("data_str:{}".format(data_str)) # rodar com -d para debug
-        sinal, Xis = data_str
         
+        sinal, Xis = data_str
         cores = ["verde","vermelho","amarelo","azul", "laranja", "palheta up", "palheta down", "whammy"]
-
+        
         num = sinal >> 4 # id do botão apertado
-        valor = sinal & 0xF
+        valor = sinal & 15
+        
         print(cores[num-1], valor)
-
-        #print(bin(sinal))
-
-        self.incoming = self.ser.read()
-
 
 if __name__ == '__main__':
     interfaces = ['dummy', 'serial']
