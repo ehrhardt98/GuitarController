@@ -7,7 +7,6 @@
 - C
     - callback
     - acelerometro
-    - mecânica
     - economia de energia
     - RTOS
  
