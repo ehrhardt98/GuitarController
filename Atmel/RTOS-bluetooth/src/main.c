@@ -43,9 +43,9 @@
 #define Orange_IDX_MASK (1 << Orange_IDX)
 
 // Palheta up
-#define Palhetaup_PIO      PIOA
-#define Palhetaup_PIO_ID   ID_PIOA
-#define Palhetaup_IDX  3
+#define Palhetaup_PIO      PIOD
+#define Palhetaup_PIO_ID   ID_PIOD
+#define Palhetaup_IDX  20
 #define Palhetaup_IDX_MASK (1 << Palhetaup_IDX)
 
 // Palheta down
@@ -206,7 +206,7 @@ void Orange_callback(void)
 void Palhetaup_callback(void)
 {
 	int8_t dado = 0;
-	if(!pio_get(Palhetaup_PIO, PIO_INPUT, PIO_PA3)){
+	if(!pio_get(Palhetaup_PIO, PIO_INPUT, PIO_PD20)){
 		dado = ID_Palhetaup << 4 | 1<<0;
 	}
 	else{
