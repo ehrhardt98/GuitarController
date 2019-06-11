@@ -89,6 +89,9 @@
 // From module: Interrupt management - SAM implementation
 #include <interrupt.h>
 
+// From module: MATRIX - Bus Matrix
+#include <matrix.h>
+
 // From module: MPU - Memory Protect Unit
 #include <mpu.h>
 
@@ -121,6 +124,15 @@
 // From module: TC - Timer Counter
 #include <tc.h>
 
+// From module: TWI - Two-wire Interface High Speed
+#include <twihs.h>
+
+// From module: TWIHS - Two-Wire Interface High Speed- SAM implementation
+#include <sam_twihs/twihs_master.h>
+#include <sam_twihs/twihs_slave.h>
+#include <twihs_master.h>
+#include <twihs_slave.h>
+
 // From module: UART - Univ. Async Rec/Trans
 #include <uart.h>
 
@@ -129,6 +141,9 @@
 
 // From module: USART - Univ. Syn Async Rec/Trans
 #include <usart.h>
+
+// From module: XDMAC - XDMA Controller
+#include <xdmac.h>
 
 // From module: pio_handler support enabled
 #include <pio_handler.h>

@@ -1,9 +1,9 @@
 /**
  * \file
  *
- * \brief SAME70-XPLAINED board configuration.
+ * \brief TWIHS Master driver for SAM.
  *
- * Copyright (c) 2015-2016 Atmel Corporation. All rights reserved.
+ * Copyright (c) 2014-2016 Atmel Corporation. All rights reserved.
  *
  * \asf_license_start
  *
@@ -44,14 +44,59 @@
  * Support and FAQ: visit <a href="http://www.atmel.com/design-support/">Atmel Support</a>
  */
 
-#ifndef CONF_BOARD_H_INCLUDED
-#define CONF_BOARD_H_INCLUDED
+#ifndef _TWIHS_MASTER_H_
+#define _TWIHS_MASTER_H_
 
-/* Enable ICache and DCache */
-#define CONF_BOARD_ENABLE_CACHE
+#include "twihs.h"
+#include "sysclk.h"
 
-/* Configure UART pins */
-#define CONF_BOARD_UART_CONSOLE
-/** Enable TWIHS port. */
-#define CONF_BOARD_TWIHS0
-#endif /* CONF_BOARD_H_INCLUDED */
+typedef Twihs *twihs_master_t;
+typedef twihs_options_t twihs_master_options_t;
+typedef twihs_packet_t twihs_package_t;
+
+static inline uint32_t twihs_master_setup(twihs_master_t p_twihs,
+		twihs_master_options_t *p_opt)
+{
+	p_opt->master_clk = sysclk_get_peripheral_hz();
+	p_opt->smbus      = 0;
+
+#if (SAMV70 || SAMV71 || SAME70 || SAMS70)
+	if (p_twihs == TWIHS0) {
+		sysclk_enable_peripheral_clock(ID_TWIHS0);
+	} else if (p_twihs == TWIHS1) {
+		sysclk_enable_peripheral_clock(ID_TWIHS1);
+	} else if (p_twihs == TWIHS2) {
+		sysclk_enable_peripheral_clock(ID_TWIHS2);
+	} else {
+		// Do Nothing
+	}
+#else
+	if (p_twihs == TWI0) {
+		sysclk_enable_peripheral_clock(ID_TWI0);
+#if SAMG55		
+	} else if (p_twihs == TWI1) {
+		sysclk_enable_peripheral_clock(ID_TWI1);
+	} else if (p_twihs == TWI2) {
+		sysclk_enable_peripheral_clock(ID_TWI2);
+	} else if (p_twihs == TWI3) {
+		sysclk_enable_peripheral_clock(ID_TWI3);
+	} else if (p_twihs == TWI4) {
+		sysclk_enable_peripheral_clock(ID_TWI4);
+	} else if (p_twihs == TWI5) {
+		sysclk_enable_peripheral_clock(ID_TWI5);
+	} else if (p_twihs == TWI6) {
+		sysclk_enable_peripheral_clock(ID_TWI6);
+	} else if (p_twihs == TWI7) {
+		sysclk_enable_peripheral_clock(ID_TWI7);
+#endif		
+	} else {
+		// Do Nothing
+	}
+#endif
+	return (twihs_master_init(p_twihs, p_opt));
+}
+
+#define twihs_master_enable(p_twihs)   twihs_enable_master_mode(p_twihs)
+#define twihs_master_disable(p_twihs)  twihs_disable_master_mode(p_twihs)
+
+#endif // _TWIHS_MASTER_H_

@@ -1,9 +1,9 @@
 /**
  * \file
  *
- * \brief SAME70-XPLAINED board configuration.
+ * \brief TWIHS Slave Mode management
  *
- * Copyright (c) 2015-2016 Atmel Corporation. All rights reserved.
+ * Copyright (c) 2013-2015 Atmel Corporation. All rights reserved.
  *
  * \asf_license_start
  *
@@ -43,15 +43,52 @@
 /*
  * Support and FAQ: visit <a href="http://www.atmel.com/design-support/">Atmel Support</a>
  */
+#ifndef TWIHS_SLAVE_H_INCLUDED
+#define TWIHS_SLAVE_H_INCLUDED
 
-#ifndef CONF_BOARD_H_INCLUDED
-#define CONF_BOARD_H_INCLUDED
+#include <parts.h>
+#include <compiler.h>
 
-/* Enable ICache and DCache */
-#define CONF_BOARD_ENABLE_CACHE
+#if (SAMG || SAMV70 || SAMV71 || SAME70 || SAMS70)
+# include "sam_twihs/twihs_slave.h"
+#else
+# error Unsupported chip type
+#endif
 
-/* Configure UART pins */
-#define CONF_BOARD_UART_CONSOLE
-/** Enable TWIHS port. */
-#define CONF_BOARD_TWIHS0
-#endif /* CONF_BOARD_H_INCLUDED */
+/**
+ *
+ * \defgroup twihs_group Two Wire-interface High Speed(TWIHS)
+ *
+ * This is the common API for TWIHS. Additional features are available
+ * in the documentation of the specific modules.
+ *
+ * \section twihs_group_platform Platform Dependencies
+ *
+ * The twihs API is partially chip- or platform-specific. While all
+ * platforms provide mostly the same functionality, there are some
+ * variations around how different bus types and clock tree structures
+ * are handled.
+ *
+ * The following functions are available on all platforms, but there may
+ * be variations in the function signature (i.e. parameters) and
+ * behaviour. These functions are typically called by platform-specific
+ * parts of drivers, and applications that aren't intended to be
+ * portable:
+ *   - twihs_slave_setup()
+ *   - twihs_slave_enable()
+ *   - twihs_slave_disable()
+ *   - twihs_slave_read()
+ *   - twihs_slave_write()
+ *
+ * @{
+ */
+
+/**
+ * \typedef twihs_slave_t
+ * This type can be used independently to refer to TWIHS slave module for the
+ * architecture used.
+ */
+
+//! @}
+
+#endif /* TWIHS_SLAVE_H_INCLUDED */

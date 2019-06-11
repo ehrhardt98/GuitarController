@@ -1,5 +1,6 @@
 #include <asf.h>
 #include "conf_board.h"
+#include "mcu6050.h"
 #include <string.h>
 
 /************************************************************************/
@@ -62,6 +63,7 @@
 #define ID_Palhetaup 6
 #define ID_Palhetadown 7
 #define ID_Afec 8
+#define ID_Imu 9
 
 #define AFEC_CHANNEL_TEMP_SENSOR 5
 
@@ -71,10 +73,21 @@
 
 /** RTOS  */
 #define TASK_PROCESS_STACK_SIZE            (6*1024/sizeof(portSTACK_TYPE))
-#define TASK_PROCESS_STACK_PRIORITY        (tskIDLE_PRIORITY)
+#define TASK_PROCESS_STACK_PRIORITY        (tskIDLE_PRIORITY+1)
 
-#define TASK_AFEC_STACK_SIZE            (2*1024/sizeof(portSTACK_TYPE))
-#define TASK_AFEC_STACK_PRIORITY        (configMAX_PRIORITIES-1)
+#define TASK_AFEC_STACK_SIZE            (4*1024/sizeof(portSTACK_TYPE))
+#define TASK_AFEC_STACK_PRIORITY        (tskIDLE_PRIORITY)
+
+#define TASK_IMU_STACK_SIZE            (4*1024/sizeof(portSTACK_TYPE))
+#define TASK_IMU_STACK_PRIORITY        (tskIDLE_PRIORITY)
+
+//IMU
+#define TWIHS_MCU6050_ID    ID_TWIHS0
+#define TWIHS_MCU6050       TWIHS0
+
+int16_t  accX, accY, accZ;
+volatile uint8_t  accXHigh, accYHigh, accZHigh;
+volatile uint8_t  accXLow,  accYLow,  accZLow;
 
 extern void vApplicationStackOverflowHook(xTaskHandle *pxTask, signed char *pcTaskName);
 extern void vApplicationIdleHook(void);
@@ -205,28 +218,23 @@ void Orange_callback(void)
 
 void Palhetaup_callback(void)
 {
-	int8_t dado = 0;
-	if(!pio_get(Palhetaup_PIO, PIO_INPUT, PIO_PD20)){
-		dado = ID_Palhetaup << 4 | 1<<0;
-	}
-	else{
-		dado = ID_Palhetaup << 4 | 0<<0;
-	}
+	int8_t dado = ID_Palhetaup << 4 | 1<<0;
 	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+	xQueueSendFromISR(xQueueBt, &dado, &xHigherPriorityTaskWoken);
+	
+	dado = ID_Palhetaup << 4 | 0<<0;
 	xQueueSendFromISR(xQueueBt, &dado, &xHigherPriorityTaskWoken);
 }
 
 void Palhetadown_callback(void)
 {
-	int8_t dado = 0;
-	if(!pio_get(Palhetadown_PIO, PIO_INPUT, PIO_PC17)){
-		dado = ID_Palhetadown << 4 | 1<<0;
-	}
-	else{
-		dado = ID_Palhetadown << 4 | 0<<0;
-	}
+	int8_t dado = ID_Palhetadown << 4 | 1<<0;
 	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
 	xQueueSendFromISR(xQueueBt, &dado, &xHigherPriorityTaskWoken);
+	
+	dado = ID_Palhetadown << 4 | 0<<0;
+	xQueueSendFromISR(xQueueBt, &dado, &xHigherPriorityTaskWoken);
+	//MANDAR PRA QUEUE EM SEGUIDA, APERTOU E SOLTOU KABAMMMM
 }
 
 static void AFEC_Callback(void)
@@ -298,26 +306,18 @@ void io_init(void){
 	pio_set_debounce_filter(Blue_PIO, Blue_IDX_MASK, 20);
 	pio_configure(Orange_PIO, PIO_INPUT, Orange_IDX_MASK, PIO_PULLUP | PIO_DEBOUNCE);
 	pio_set_debounce_filter(Orange_PIO, Orange_IDX_MASK, 20);
-	pio_configure(Palhetaup_PIO, PIO_INPUT, Palhetaup_IDX_MASK, PIO_PULLUP | PIO_DEBOUNCE);
-	pio_set_debounce_filter(Palhetaup_PIO, Palhetaup_IDX_MASK, 20);
 	pio_configure(Palhetadown_PIO, PIO_INPUT, Palhetadown_IDX_MASK, PIO_PULLUP | PIO_DEBOUNCE);
 	pio_set_debounce_filter(Palhetadown_PIO, Palhetadown_IDX_MASK, 20);
+	pio_configure(Palhetaup_PIO, PIO_INPUT, Palhetaup_IDX_MASK, PIO_PULLUP | PIO_DEBOUNCE);
+	pio_set_debounce_filter(Palhetaup_PIO, Palhetaup_IDX_MASK, 20);
 	
 	pio_handler_set(Green_PIO,Green_PIO_ID,Green_IDX_MASK,PIO_IT_EDGE,Green_callback);
 	pio_handler_set(Red_PIO,Red_PIO_ID,Red_IDX_MASK,PIO_IT_EDGE,Red_callback);
 	pio_handler_set(Yellow_PIO,Yellow_PIO_ID,Yellow_IDX_MASK,PIO_IT_EDGE,Yellow_callback);
 	pio_handler_set(Blue_PIO,Blue_PIO_ID,Blue_IDX_MASK,PIO_IT_EDGE,Blue_callback);
 	pio_handler_set(Orange_PIO,Orange_PIO_ID,Orange_IDX_MASK,PIO_IT_EDGE,Orange_callback);
-	pio_handler_set(Palhetaup_PIO,Palhetaup_PIO_ID,Palhetaup_IDX_MASK,PIO_IT_EDGE,Palhetaup_callback);
-	pio_handler_set(Palhetadown_PIO,Palhetadown_PIO_ID,Palhetadown_IDX_MASK,PIO_IT_EDGE,Palhetadown_callback);
-
-	pio_enable_interrupt(Green_PIO, Green_IDX_MASK);
-	pio_enable_interrupt(Red_PIO, Red_IDX_MASK);
-	pio_enable_interrupt(Yellow_PIO, Yellow_IDX_MASK);
-	pio_enable_interrupt(Blue_PIO, Blue_IDX_MASK);
-	pio_enable_interrupt(Orange_PIO, Orange_IDX_MASK);
-	pio_enable_interrupt(Palhetaup_PIO, Palhetaup_IDX_MASK);
-	pio_enable_interrupt(Palhetadown_PIO, Palhetadown_IDX_MASK);
+	pio_handler_set(Palhetaup_PIO,Palhetaup_PIO_ID,Palhetaup_IDX_MASK,PIO_IT_FALL_EDGE,Palhetaup_callback);
+	pio_handler_set(Palhetadown_PIO,Palhetadown_PIO_ID,Palhetadown_IDX_MASK,PIO_IT_FALL_EDGE,Palhetadown_callback);
 
 	NVIC_EnableIRQ(Green_PIO_ID);
 	NVIC_SetPriority(Green_PIO_ID, 4); // Prioridade 4
@@ -339,6 +339,14 @@ void io_init(void){
 	
 	NVIC_EnableIRQ(Palhetadown_PIO_ID);
 	NVIC_SetPriority(Palhetadown_PIO_ID, 4); // Prioridade 4
+	
+	pio_enable_interrupt(Green_PIO, Green_IDX_MASK);
+	pio_enable_interrupt(Red_PIO, Red_IDX_MASK);
+	pio_enable_interrupt(Yellow_PIO, Yellow_IDX_MASK);
+	pio_enable_interrupt(Blue_PIO, Blue_IDX_MASK);
+	pio_enable_interrupt(Orange_PIO, Orange_IDX_MASK);
+	pio_enable_interrupt(Palhetaup_PIO, Palhetaup_IDX_MASK);
+	pio_enable_interrupt(Palhetadown_PIO, Palhetadown_IDX_MASK);
 }
 
 void usart_put_string(Usart *usart, char str[]) {
@@ -438,6 +446,52 @@ static void config_ADC_TEMP(void){
 	afec_channel_enable(AFEC0, AFEC_CHANNEL_TEMP_SENSOR);
 }
 
+void mcu6050_i2c_bus_init(void)
+{
+	twihs_options_t bno055_option;
+	pmc_enable_periph_clk(19);
+
+	/* Configure the options of TWI driver */
+	bno055_option.master_clk = sysclk_get_cpu_hz();
+	bno055_option.speed      = 40000;
+	twihs_master_init(TWIHS_MCU6050, &bno055_option);
+}
+
+int8_t mcu6050_i2c_bus_write(uint8_t dev_addr, uint8_t reg_addr, uint8_t *reg_data, uint8_t cnt)
+{
+	int32_t ierror = 0x00;
+
+	twihs_packet_t p_packet;
+	p_packet.chip         = dev_addr;
+	p_packet.addr[0]      = reg_addr;
+	p_packet.addr_length  = 1;
+	p_packet.buffer       = reg_data;
+	p_packet.length       = cnt;
+	
+	ierror = twihs_master_write(TWIHS_MCU6050, &p_packet);
+
+	return (int8_t)ierror;
+}
+
+int8_t mcu6050_i2c_bus_read(uint8_t dev_addr, uint8_t reg_addr, uint8_t *reg_data, uint8_t cnt)
+{
+	int32_t ierror = 0x00;
+	
+	twihs_packet_t p_packet;
+	p_packet.chip         = dev_addr;
+	p_packet.addr[0]      = reg_addr;
+	p_packet.addr_length  = 1;
+	p_packet.buffer       = reg_data;
+	p_packet.length       = cnt;
+	
+	// TODO: Algum problema no SPI faz com que devemos ler duas vezes o registrador para
+	//       conseguirmos pegar o valor correto.
+	ierror = twihs_master_read(TWIHS_MCU6050, &p_packet);
+	ierror = twihs_master_read(TWIHS_MCU6050, &p_packet);
+
+	return (int8_t)ierror;
+}
+
 /************************************************************************/
 /* TASKS                                                                */
 /************************************************************************/
@@ -451,7 +505,7 @@ void task_bluetooth(void){
   
   while(1){
 	int8_t send_char = 0;  
-	if (xQueueReceive(xQueueBt, &(send_char), (TickType_t) 10 / portTICK_PERIOD_MS)) {
+	if (xQueueReceive(xQueueBt, &(send_char), (TickType_t) 10 / portTICK_PERIOD_MS )) {
 		while(!usart_is_tx_ready(USART_COM));
 		usart_write(USART_COM, send_char);	
 		while(!usart_is_tx_ready(USART_COM));
@@ -464,7 +518,69 @@ void task_afec(void){
 	config_ADC_TEMP();
 	while(true){
 		afec_start_software_conversion(AFEC0);
-		vTaskDelay(500/portTICK_PERIOD_MS);
+		vTaskDelay(100/portTICK_PERIOD_MS);
+	}
+}
+
+void task_imu(void){
+	/* buffer para recebimento de dados */
+	uint8_t bufferRX[10];
+	uint8_t bufferTX[10];
+	uint8_t rtn;
+	mcu6050_i2c_bus_init();
+	
+	rtn = mcu6050_i2c_bus_read(MPU6050_DEFAULT_ADDRESS, MPU6050_RA_WHO_AM_I, bufferRX, 1);
+	if(rtn != TWIHS_SUCCESS){
+		printf("[ERRO] [i2c] [read] \n");
+	}
+	
+	// Por algum motivo a primeira leitura é errada.
+	if(bufferRX[0] != 0x68){
+		printf("[ERRO] [mcu] [Wrong device] [0x%2X] \n", bufferRX[0]);
+	}
+	
+	// Set Clock source
+	bufferTX[0] = MPU6050_CLOCK_PLL_XGYRO;
+	rtn = mcu6050_i2c_bus_write(MPU6050_DEFAULT_ADDRESS, MPU6050_RA_PWR_MGMT_1, bufferTX, 1);
+	if(rtn != TWIHS_SUCCESS)
+	printf("[ERRO] [i2c] [write] \n");
+
+	// Configura range acelerometro para operar com 2G
+	bufferTX[0] = 0x00; // 2G
+	rtn = mcu6050_i2c_bus_write(MPU6050_DEFAULT_ADDRESS, MPU6050_RA_ACCEL_CONFIG, bufferTX, 1);
+	float rangePerDigit = 0.000061f ; // 2G
+	
+	while (1) {
+		// Le valor do acc X High e Low
+		rtn = mcu6050_i2c_bus_read(MPU6050_DEFAULT_ADDRESS, MPU6050_RA_ACCEL_XOUT_H, &accXHigh, 1);
+		rtn = mcu6050_i2c_bus_read(MPU6050_DEFAULT_ADDRESS, MPU6050_RA_ACCEL_XOUT_L, &accXLow,  1);
+		
+		// Le valor do acc y High e  Low
+		rtn = mcu6050_i2c_bus_read(MPU6050_DEFAULT_ADDRESS, MPU6050_RA_ACCEL_YOUT_H, &accYHigh, 1);
+		rtn = mcu6050_i2c_bus_read(MPU6050_DEFAULT_ADDRESS, MPU6050_RA_ACCEL_ZOUT_L, &accYLow,  1);
+		
+		// Le valor do acc z HIGH e Low
+		rtn = mcu6050_i2c_bus_read(MPU6050_DEFAULT_ADDRESS, MPU6050_RA_ACCEL_ZOUT_H, &accZHigh, 1);
+		rtn = mcu6050_i2c_bus_read(MPU6050_DEFAULT_ADDRESS, MPU6050_RA_ACCEL_ZOUT_L, &accZLow,  1);
+		
+		// Dados são do tipo complemento de dois
+		accX = (accXHigh << 8) | (accXLow << 0);
+		accY = (accYHigh << 8) | (accYLow << 0);
+		accZ = (accZHigh << 8) | (accZLow << 0);
+		
+		printf("x/y : %d / %d \n", accX/100, accY/100);
+		
+		int8_t dado = 0;
+		if((accX/100) > 120){
+			dado = ID_Imu<<4 | 1<<0;
+		}
+		else{
+			dado = ID_Imu<<4 | 0<<0;
+		}
+		BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+		xQueueSendFromISR(xQueueBt, &dado, &xHigherPriorityTaskWoken);
+		
+		vTaskDelay(100/portTICK_PERIOD_MS);
 	}
 }
 
@@ -479,10 +595,13 @@ int main(void){
 
 	/* Initialize the console uart */
 	configure_console();
+	
+	printf("Start");
 
 	/* Create task to make led blink */
 	xTaskCreate(task_bluetooth, "BLT", TASK_PROCESS_STACK_SIZE, NULL, TASK_PROCESS_STACK_PRIORITY, NULL);
     xTaskCreate(task_afec, "AFEC", TASK_AFEC_STACK_SIZE, NULL, TASK_AFEC_STACK_PRIORITY, NULL);
+	xTaskCreate(task_imu, "IMU", TASK_IMU_STACK_SIZE, NULL, TASK_IMU_STACK_PRIORITY, NULL);
 	
 	/* Start the scheduler. */
 	vTaskStartScheduler();

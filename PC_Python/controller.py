@@ -6,7 +6,7 @@ import pyvjoy # Windows apenas
 
 class MyControllerMap:
     def __init__(self):
-        self.botoes = {'verde': 1, 'vermelho': 2, 'amarelo': 3, 'azul': 4, 'laranja': 5, 'palheta_down': 6, 'palheta_up': 7, 'whammy': 8}
+        self.botoes = {'verde': 1, 'vermelho': 2, 'amarelo': 3, 'azul': 4, 'laranja': 5, 'palheta_down': 6, 'palheta_up': 7, 'whammy': 8, 'especial': 9}
 
 class SerialControllerInterface:
     # Protocolo
@@ -30,15 +30,15 @@ class SerialControllerInterface:
         data_str = bytearray(data)
         
         sinal, Xis = data_str
-        cores = ["verde","vermelho","amarelo","azul", "laranja", "palheta_up", "palheta_down", "whammy"]
+        cores = ["verde","vermelho","amarelo","azul", "laranja", "palheta_up", "palheta_down", "whammy", "especial"]
         
         num = sinal >> 4 # id do botão apertado
         valor = sinal & 15
         if(cores[num-1] == "whammy"):
             if valor > 4:
-                self.j.set_button(self.mapping.botoes["whammy"], 1)
-            else:
                 self.j.set_button(self.mapping.botoes["whammy"], 0)
+            else:
+                self.j.set_button(self.mapping.botoes["whammy"], 1)
         else:
             self.j.set_button(self.mapping.botoes[cores[num-1]], valor)
 

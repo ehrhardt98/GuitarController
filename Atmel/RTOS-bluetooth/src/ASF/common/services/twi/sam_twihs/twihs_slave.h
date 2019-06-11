@@ -1,9 +1,9 @@
 /**
  * \file
  *
- * \brief SAME70-XPLAINED board configuration.
+ * \brief TWIHS Slave driver for SAM.
  *
- * Copyright (c) 2015-2016 Atmel Corporation. All rights reserved.
+ * Copyright (c) 2013-2015 Atmel Corporation. All rights reserved.
  *
  * \asf_license_start
  *
@@ -44,14 +44,54 @@
  * Support and FAQ: visit <a href="http://www.atmel.com/design-support/">Atmel Support</a>
  */
 
-#ifndef CONF_BOARD_H_INCLUDED
-#define CONF_BOARD_H_INCLUDED
+#ifndef TWIHS_SLAVE_H_INCLUDED
+#define TWIHS_SLAVE_H_INCLUDED
 
-/* Enable ICache and DCache */
-#define CONF_BOARD_ENABLE_CACHE
+#include "twihs.h"
+#include "sysclk.h"
 
-/* Configure UART pins */
-#define CONF_BOARD_UART_CONSOLE
-/** Enable TWIHS port. */
-#define CONF_BOARD_TWIHS0
-#endif /* CONF_BOARD_H_INCLUDED */
+typedef Twihs *twihs_slave_t;
+
+static inline void twihs_slave_setup(twihs_slave_t p_twihs, uint32_t dw_device_addr)
+{
+#if (SAMV70 || SAMV71 || SAME70 || SAMS70)
+	if (p_twihs == TWIHS0) {
+		sysclk_enable_peripheral_clock(ID_TWIHS0);
+	} else if (p_twihs == TWIHS1) {
+		sysclk_enable_peripheral_clock(ID_TWIHS1);
+	} else if (p_twihs == TWIHS2) {
+		sysclk_enable_peripheral_clock(ID_TWIHS2);
+	} else {
+		// Do Nothing
+	}
+#else
+	if (p_twihs == TWI0) {
+		sysclk_enable_peripheral_clock(ID_TWI0);
+#if SAMG55		
+	} else if (p_twihs == TWI1) {
+		sysclk_enable_peripheral_clock(ID_TWI1);
+	} else if (p_twihs == TWI2) {
+		sysclk_enable_peripheral_clock(ID_TWI2);
+	} else if (p_twihs == TWI3) {
+		sysclk_enable_peripheral_clock(ID_TWI3);
+	} else if (p_twihs == TWI4) {
+		sysclk_enable_peripheral_clock(ID_TWI4);
+	} else if (p_twihs == TWI5) {
+		sysclk_enable_peripheral_clock(ID_TWI5);
+	} else if (p_twihs == TWI6) {
+		sysclk_enable_peripheral_clock(ID_TWI6);
+	} else if (p_twihs == TWI7) {
+		sysclk_enable_peripheral_clock(ID_TWI7);
+#endif		
+	} else {
+		// Do Nothing
+	}
+#endif
+	twihs_slave_init(p_twihs, dw_device_addr);
+}
+
+#define twihs_slave_enable(p_twihs)  twihs_enable_slave_mode(p_twihs)
+
+#define twihs_slave_disable(p_twihs)  twihs_disable_slave_mode(p_twihs)
+
+#endif /* TWIHS_SLAVE_H_INCLUDED */

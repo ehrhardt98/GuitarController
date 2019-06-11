@@ -20,6 +20,8 @@ src\ASF\sam\boards\same70_xplained\init.c
 
 src\ASF\sam\drivers\afec\afec.c
 
+src\ASF\sam\drivers\matrix\matrix.c
+
 src\ASF\sam\drivers\mpu\mpu.c
 
 src\ASF\sam\drivers\pio\pio.c
@@ -32,9 +34,13 @@ src\ASF\sam\drivers\pmc\sleep.c
 
 src\ASF\sam\drivers\tc\tc.c
 
+src\ASF\sam\drivers\twihs\twihs.c
+
 src\ASF\sam\drivers\uart\uart.c
 
 src\ASF\sam\drivers\usart\usart.c
+
+src\ASF\sam\drivers\xdmac\xdmac.c
 
 src\ASF\sam\utils\cmsis\same70\source\templates\gcc\startup_same70.c
 

@@ -1,10 +1,10 @@
-# Controle de Guitar Hero
+﻿# Controle de Guitar Hero
    Projeto do quinto semestre, da matéria Sistemas Embarcados (Insper).
    O projeto consistia em recriar o controle do jogo Guitar Hero (Activision) com bluetooth para fins de estudo.
  
 # Rubrica projeto 2
 
-- C
+- C (feito)
     - callback
     - acelerometro
     - economia de energia
@@ -15,7 +15,7 @@
     - mudar de kit de desenvolvimeto
     - led enderecavel
     - mode demo (quando conecta)
-    - melhorar o python (vjoy)
+    - melhorar o python (fazendo, falta vjoy)
 
 
 # Instruções para rodar:
