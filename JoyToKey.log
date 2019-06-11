@@ -29,3 +29,18 @@
 2019/06/10 20:12:52.114 Info   TimerInit: Initializing timer with x1 speed mode (interval = 16 msec)
 2019/06/10 20:13:42.103 Error  Acesso negado.
  (Utils\Utils.cpp#479)
+2019/06/10 21:10:25.064 Info   Detected a DI joystick: {531319A0-78C2-11E9-8002-444553540000}, vJoy Device, vJoy Device
+2019/06/10 21:10:25.080 Info   numAxis = 8
+2019/06/10 21:10:25.080 Info   numPOVs = 0
+2019/06/10 21:10:25.080 Info   numButtons = 9
+2019/06/10 21:10:25.080 Info   EnumDeviceObject: Axis offset=0 type=1000002 name=Eixo X
+2019/06/10 21:10:25.080 Info   EnumDeviceObject: Axis offset=4 type=1000102 name=Eixo Y
+2019/06/10 21:10:25.080 Info   EnumDeviceObject: Axis offset=8 type=202 name=Eixo Z
+2019/06/10 21:10:25.080 Info   EnumDeviceObject: Axis offset=12 type=302 name=Rotação X
+2019/06/10 21:10:25.080 Info   EnumDeviceObject: Axis offset=16 type=402 name=Rotação Y
+2019/06/10 21:10:25.080 Info   EnumDeviceObject: Axis offset=20 type=502 name=Rotação Z
+2019/06/10 21:10:25.080 Info   EnumDeviceObject: Axis offset=24 type=602 name=Controle deslizante
+2019/06/10 21:10:25.080 Info   EnumDeviceObject: Axis offset=28 type=702 name=Discar
+2019/06/10 21:10:25.095 Info   DetectJoysticks: Detected 1 DI joystick(s)
+2019/06/10 21:10:25.095 Info   Joystick #1: vJoy Device
+2019/06/10 21:10:26.511 Info   Application terminated (Utils\LogFile.cpp#20)

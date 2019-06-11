@@ -2,7 +2,13 @@ import serial
 import argparse
 import time
 import logging
+import subprocess
+import signal
 import pyvjoy # Windows apenas
+
+def handler(signum, frame):
+    print("Exiting!")
+    exit(0)
 
 class MyControllerMap:
     def __init__(self):
@@ -43,18 +49,29 @@ class SerialControllerInterface:
             self.j.set_button(self.mapping.botoes[cores[num-1]], valor)
 
 if __name__ == '__main__':
-    interfaces = ['dummy', 'serial']
-    argparse = argparse.ArgumentParser()
-    argparse.add_argument('serial_port', type=str)
-    argparse.add_argument('-b', '--baudrate', type=int, default=9600)
-    argparse.add_argument('-c', '--controller_interface', type=str, default='serial', choices=interfaces)
-    argparse.add_argument('-d', '--debug', default=False, action='store_true')
-    args = argparse.parse_args()
-    if args.debug:
-        logging.basicConfig(level=logging.DEBUG)
+    run = 0
+    try:
+        print("Connecting controller")
+        interfaces = ['dummy', 'serial']
+        argparse = argparse.ArgumentParser()
+        argparse.add_argument('serial_port', type=str)
+        argparse.add_argument('-b', '--baudrate', type=int, default=9600)
+        argparse.add_argument('-c', '--controller_interface', type=str, default='serial', choices=interfaces)
+        argparse.add_argument('-d', '--debug', default=False, action='store_true')
+        args = argparse.parse_args()
+        if args.debug:
+            logging.basicConfig(level=logging.DEBUG)
 
-    print("Connection to {} using {} interface ({})".format(args.serial_port, args.controller_interface, args.baudrate))
-    controller = SerialControllerInterface(port=args.serial_port, baudrate=args.baudrate)
+        controller = SerialControllerInterface(port=args.serial_port, baudrate=args.baudrate)
+        print("Connection to {} using {} interface ({})".format(args.serial_port, args.controller_interface, args.baudrate))
+        print("Use Ctrl+C to exit")
+        print("Controller connected, launch JoyToKey to start playing!")
+        signal.signal(signal.SIGINT, handler)
+        run = 1
+        
+    except:
+        print("Failed to connect to controller")
 
-    while True:
-        controller.update()
+    if run:
+        while True:
+            controller.update()
