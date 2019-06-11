@@ -1,46 +1,44 @@
-2019/06/10 20:12:51.225 Info   C:\Users\Dell\Desktop\Insper\2019.1\CompEmbarc\GuitarController\JoyToKey.exe
-2019/06/10 20:12:51.225 Info   Starting JoyToKey v6.2
-2019/06/10 20:12:51.225 Info   ExeFile=C:\Users\Dell\Desktop\Insper\2019.1\CompEmbarc\GuitarController\JoyToKey.exe
-2019/06/10 20:12:51.225 Info   ConfigDir=C:\Users\Dell\Desktop\Insper\2019.1\CompEmbarc\GuitarController\
-2019/06/10 20:12:51.225 Info   IniFile=C:\Users\Dell\Desktop\Insper\2019.1\CompEmbarc\GuitarController\JoyToKey.ini
-2019/06/10 20:12:51.225 Info   Windows Version = 6.2
-2019/06/10 20:12:51.233 Error  Failed to load VistaAPI.dll (Utils\Utils.cpp#227)
-2019/06/10 20:12:51.234 Info   Loading ini file: C:\Users\Dell\Desktop\Insper\2019.1\CompEmbarc\GuitarController\JoyToKey.ini (AppInfo.cpp#231)
-2019/06/10 20:12:51.249 Info   LicenseKey "" is not valid
-2019/06/10 20:12:51.842 Info   Loading XInput1_3.dll (Joystick.cpp#128)
-2019/06/10 20:12:51.868 Info   Initialized XInput (Joystick.cpp#146)
-2019/06/10 20:12:52.013 Info   Detected a DI joystick: {531319A0-78C2-11E9-8002-444553540000}, vJoy Device, vJoy Device
-2019/06/10 20:12:52.034 Info   numAxis = 8
-2019/06/10 20:12:52.034 Info   numPOVs = 0
-2019/06/10 20:12:52.034 Info   numButtons = 9
-2019/06/10 20:12:52.034 Info   EnumDeviceObject: Axis offset=0 type=1000002 name=Eixo X
-2019/06/10 20:12:52.034 Info   EnumDeviceObject: Axis offset=4 type=1000102 name=Eixo Y
-2019/06/10 20:12:52.034 Info   EnumDeviceObject: Axis offset=8 type=202 name=Eixo Z
-2019/06/10 20:12:52.034 Info   EnumDeviceObject: Axis offset=12 type=302 name=Rotação X
-2019/06/10 20:12:52.034 Info   EnumDeviceObject: Axis offset=16 type=402 name=Rotação Y
-2019/06/10 20:12:52.034 Info   EnumDeviceObject: Axis offset=20 type=502 name=Rotação Z
-2019/06/10 20:12:52.034 Info   EnumDeviceObject: Axis offset=24 type=602 name=Controle deslizante
-2019/06/10 20:12:52.034 Info   EnumDeviceObject: Axis offset=28 type=702 name=Discar
-2019/06/10 20:12:52.044 Info   DetectJoysticks: Detected 1 DI joystick(s)
-2019/06/10 20:12:52.048 Info   Joystick #1: vJoy Device
-2019/06/10 20:12:52.048 Info   1 joysticks are detected (Joystick.cpp#168)
-2019/06/10 20:12:52.048 Info   ConfigDir=C:\Users\Dell\Desktop\Insper\2019.1\CompEmbarc\GuitarController\*.cfg (ConfigFileManager.cpp#43)
-2019/06/10 20:12:52.059 Info   Failed to find AppLink.dat (AppLink\AppLinkManager.cpp#32)
-2019/06/10 20:12:52.114 Info   TimerInit: Initializing timer with x1 speed mode (interval = 16 msec)
-2019/06/10 20:13:42.103 Error  Acesso negado.
- (Utils\Utils.cpp#479)
-2019/06/10 21:10:25.064 Info   Detected a DI joystick: {531319A0-78C2-11E9-8002-444553540000}, vJoy Device, vJoy Device
-2019/06/10 21:10:25.080 Info   numAxis = 8
-2019/06/10 21:10:25.080 Info   numPOVs = 0
-2019/06/10 21:10:25.080 Info   numButtons = 9
-2019/06/10 21:10:25.080 Info   EnumDeviceObject: Axis offset=0 type=1000002 name=Eixo X
-2019/06/10 21:10:25.080 Info   EnumDeviceObject: Axis offset=4 type=1000102 name=Eixo Y
-2019/06/10 21:10:25.080 Info   EnumDeviceObject: Axis offset=8 type=202 name=Eixo Z
-2019/06/10 21:10:25.080 Info   EnumDeviceObject: Axis offset=12 type=302 name=Rotação X
-2019/06/10 21:10:25.080 Info   EnumDeviceObject: Axis offset=16 type=402 name=Rotação Y
-2019/06/10 21:10:25.080 Info   EnumDeviceObject: Axis offset=20 type=502 name=Rotação Z
-2019/06/10 21:10:25.080 Info   EnumDeviceObject: Axis offset=24 type=602 name=Controle deslizante
-2019/06/10 21:10:25.080 Info   EnumDeviceObject: Axis offset=28 type=702 name=Discar
-2019/06/10 21:10:25.095 Info   DetectJoysticks: Detected 1 DI joystick(s)
-2019/06/10 21:10:25.095 Info   Joystick #1: vJoy Device
-2019/06/10 21:10:26.511 Info   Application terminated (Utils\LogFile.cpp#20)
+2019/06/11 14:18:32.204 Info   C:\Users\Dell\Desktop\Insper\2019.1\CompEmbarc\GuitarController\JoyToKey.exe
+2019/06/11 14:18:32.204 Info   Starting JoyToKey v6.2
+2019/06/11 14:18:32.204 Info   ExeFile=C:\Users\Dell\Desktop\Insper\2019.1\CompEmbarc\GuitarController\JoyToKey.exe
+2019/06/11 14:18:32.204 Info   ConfigDir=C:\Users\Dell\Desktop\Insper\2019.1\CompEmbarc\GuitarController\
+2019/06/11 14:18:32.204 Info   IniFile=C:\Users\Dell\Desktop\Insper\2019.1\CompEmbarc\GuitarController\JoyToKey.ini
+2019/06/11 14:18:32.204 Info   Windows Version = 6.2
+2019/06/11 14:18:32.220 Error  Failed to load VistaAPI.dll (Utils\Utils.cpp#227)
+2019/06/11 14:18:32.220 Info   Loading ini file: C:\Users\Dell\Desktop\Insper\2019.1\CompEmbarc\GuitarController\JoyToKey.ini (AppInfo.cpp#231)
+2019/06/11 14:18:32.220 Info   LicenseKey "" is not valid
+2019/06/11 14:18:32.354 Info   Loading XInput1_3.dll (Joystick.cpp#128)
+2019/06/11 14:18:32.354 Info   Initialized XInput (Joystick.cpp#146)
+2019/06/11 14:18:32.448 Info   Detected a DI joystick: {531319A0-78C2-11E9-8002-444553540000}, vJoy Device, vJoy Device
+2019/06/11 14:18:32.463 Info   numAxis = 8
+2019/06/11 14:18:32.463 Info   numPOVs = 0
+2019/06/11 14:18:32.463 Info   numButtons = 9
+2019/06/11 14:18:32.463 Info   EnumDeviceObject: Axis offset=0 type=1000002 name=Eixo X
+2019/06/11 14:18:32.463 Info   EnumDeviceObject: Axis offset=4 type=1000102 name=Eixo Y
+2019/06/11 14:18:32.463 Info   EnumDeviceObject: Axis offset=8 type=202 name=Eixo Z
+2019/06/11 14:18:32.463 Info   EnumDeviceObject: Axis offset=12 type=302 name=Rotação X
+2019/06/11 14:18:32.463 Info   EnumDeviceObject: Axis offset=16 type=402 name=Rotação Y
+2019/06/11 14:18:32.463 Info   EnumDeviceObject: Axis offset=20 type=502 name=Rotação Z
+2019/06/11 14:18:32.463 Info   EnumDeviceObject: Axis offset=24 type=602 name=Controle deslizante
+2019/06/11 14:18:32.463 Info   EnumDeviceObject: Axis offset=28 type=702 name=Discar
+2019/06/11 14:18:32.463 Info   DetectJoysticks: Detected 1 DI joystick(s)
+2019/06/11 14:18:32.479 Info   Joystick #1: vJoy Device
+2019/06/11 14:18:32.479 Info   1 joysticks are detected (Joystick.cpp#168)
+2019/06/11 14:18:32.479 Info   ConfigDir=C:\Users\Dell\Desktop\Insper\2019.1\CompEmbarc\GuitarController\*.cfg (ConfigFileManager.cpp#43)
+2019/06/11 14:18:32.479 Info   Failed to find AppLink.dat (AppLink\AppLinkManager.cpp#32)
+2019/06/11 14:18:32.510 Info   TimerInit: Initializing timer with x1 speed mode (interval = 16 msec)
+2019/06/11 14:19:10.947 Info   Detected a DI joystick: {531319A0-78C2-11E9-8002-444553540000}, vJoy Device, vJoy Device
+2019/06/11 14:19:10.963 Info   numAxis = 8
+2019/06/11 14:19:10.963 Info   numPOVs = 0
+2019/06/11 14:19:10.963 Info   numButtons = 9
+2019/06/11 14:19:10.963 Info   EnumDeviceObject: Axis offset=0 type=1000002 name=Eixo X
+2019/06/11 14:19:10.963 Info   EnumDeviceObject: Axis offset=4 type=1000102 name=Eixo Y
+2019/06/11 14:19:10.963 Info   EnumDeviceObject: Axis offset=8 type=202 name=Eixo Z
+2019/06/11 14:19:10.963 Info   EnumDeviceObject: Axis offset=12 type=302 name=Rotação X
+2019/06/11 14:19:10.963 Info   EnumDeviceObject: Axis offset=16 type=402 name=Rotação Y
+2019/06/11 14:19:10.963 Info   EnumDeviceObject: Axis offset=20 type=502 name=Rotação Z
+2019/06/11 14:19:10.963 Info   EnumDeviceObject: Axis offset=24 type=602 name=Controle deslizante
+2019/06/11 14:19:10.963 Info   EnumDeviceObject: Axis offset=28 type=702 name=Discar
+2019/06/11 14:19:10.978 Info   DetectJoysticks: Detected 1 DI joystick(s)
+2019/06/11 14:19:10.978 Info   Joystick #1: vJoy Device
+2019/06/11 14:19:12.339 Info   Application terminated (Utils\LogFile.cpp#20)

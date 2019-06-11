@@ -2,7 +2,6 @@ import serial
 import argparse
 import time
 import logging
-import subprocess
 import signal
 import pyvjoy # Windows apenas
 
@@ -12,12 +11,12 @@ def handler(signum, frame):
 
 class MyControllerMap:
     def __init__(self):
-        self.botoes = {'verde': 1, 'vermelho': 2, 'amarelo': 3, 'azul': 4, 'laranja': 5, 'palheta_down': 6, 'palheta_up': 7, 'whammy': 8, 'especial': 9}
+        self.buttons = {'green': 1, 'red': 2, 'amarelo': 3, 'blue': 4, 'orange': 5, 'down_stroke': 6, 'up_stroke': 7, 'whammy': 8, 'special': 9}
 
 class SerialControllerInterface:
-    # Protocolo
-    # byte 1 -> ID << 4 | sinal << 0
-    # byte 2 -> EOP - End of Packet -> valor reservado 'X'
+    # Protocol
+    # byte 1 -> ID << 4 | signal << 0
+    # byte 2 -> EOP -> reserved value 'X'
 
     def __init__(self, port, baudrate):
         self.ser = serial.Serial(port, baudrate=baudrate)
@@ -35,18 +34,18 @@ class SerialControllerInterface:
         logging.debug("Received DATA: {}".format(data))
         data_str = bytearray(data)
         
-        sinal, Xis = data_str
-        cores = ["verde","vermelho","amarelo","azul", "laranja", "palheta_up", "palheta_down", "whammy", "especial"]
+        signal, Xis = data_str
+        colors = ["green","red","amarelo","blue", "orange", "up_stroke", "down_stroke", "whammy", "special"]
         
-        num = sinal >> 4 # id do botão apertado
-        valor = sinal & 15
-        if(cores[num-1] == "whammy"):
-            if valor > 4:
-                self.j.set_button(self.mapping.botoes["whammy"], 0)
+        num = signal >> 4 # id do botão apertado
+        value = signal & 15
+        if(colors[num-1] == "whammy"):
+            if value > 4:
+                self.j.set_button(self.mapping.buttons["whammy"], 0)
             else:
-                self.j.set_button(self.mapping.botoes["whammy"], 1)
+                self.j.set_button(self.mapping.buttons["whammy"], 1)
         else:
-            self.j.set_button(self.mapping.botoes[cores[num-1]], valor)
+            self.j.set_button(self.mapping.buttons[colors[num-1]], value)
 
 if __name__ == '__main__':
     run = 0
@@ -64,14 +63,14 @@ if __name__ == '__main__':
 
         controller = SerialControllerInterface(port=args.serial_port, baudrate=args.baudrate)
         print("Connection to {} using {} interface ({})".format(args.serial_port, args.controller_interface, args.baudrate))
-        print("Use Ctrl+C to exit")
-        print("Controller connected, launch JoyToKey to start playing!")
+        print("Press Ctrl+C to exit")
         signal.signal(signal.SIGINT, handler)
+        print("Controller connected, launch JoyToKey to start playing!")
         run = 1
-        
+
     except:
         print("Failed to connect to controller")
 
-    if run:
+    if run: 
         while True:
             controller.update()
