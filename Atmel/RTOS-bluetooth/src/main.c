@@ -85,10 +85,6 @@
 #define TWIHS_MCU6050_ID    ID_TWIHS0
 #define TWIHS_MCU6050       TWIHS0
 
-int16_t  accX, accY, accZ;
-volatile uint8_t  accXHigh, accYHigh, accZHigh;
-volatile uint8_t  accXLow,  accYLow,  accZLow;
-
 extern void vApplicationStackOverflowHook(xTaskHandle *pxTask, signed char *pcTaskName);
 extern void vApplicationIdleHook(void);
 extern void vApplicationTickHook(void);
@@ -218,23 +214,28 @@ void Orange_callback(void)
 
 void Palhetaup_callback(void)
 {
-	int8_t dado = ID_Palhetaup << 4 | 1<<0;
+	int8_t dado = 0;
+	if(!pio_get(Palhetaup_PIO, PIO_INPUT, PIO_PD20)){
+		dado = ID_Palhetaup<<4 | 1<<0;
+	}
+	else{
+		dado = ID_Palhetaup<<4 | 0<<0;
+	}
 	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-	xQueueSendFromISR(xQueueBt, &dado, &xHigherPriorityTaskWoken);
-	
-	dado = ID_Palhetaup << 4 | 0<<0;
 	xQueueSendFromISR(xQueueBt, &dado, &xHigherPriorityTaskWoken);
 }
 
 void Palhetadown_callback(void)
 {
-	int8_t dado = ID_Palhetadown << 4 | 1<<0;
+	int8_t dado = 0;
+	if(!pio_get(Palhetadown_PIO, PIO_INPUT, PIO_PC17)){
+		dado = ID_Palhetadown<<4 | 1<<0;
+	}
+	else{
+		dado = ID_Palhetadown<<4 | 0<<0;
+	}
 	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
 	xQueueSendFromISR(xQueueBt, &dado, &xHigherPriorityTaskWoken);
-	
-	dado = ID_Palhetadown << 4 | 0<<0;
-	xQueueSendFromISR(xQueueBt, &dado, &xHigherPriorityTaskWoken);
-	//MANDAR PRA QUEUE EM SEGUIDA, APERTOU E SOLTOU KABAMMMM
 }
 
 static void AFEC_Callback(void)
@@ -316,8 +317,8 @@ void io_init(void){
 	pio_handler_set(Yellow_PIO,Yellow_PIO_ID,Yellow_IDX_MASK,PIO_IT_EDGE,Yellow_callback);
 	pio_handler_set(Blue_PIO,Blue_PIO_ID,Blue_IDX_MASK,PIO_IT_EDGE,Blue_callback);
 	pio_handler_set(Orange_PIO,Orange_PIO_ID,Orange_IDX_MASK,PIO_IT_EDGE,Orange_callback);
-	pio_handler_set(Palhetaup_PIO,Palhetaup_PIO_ID,Palhetaup_IDX_MASK,PIO_IT_FALL_EDGE,Palhetaup_callback);
-	pio_handler_set(Palhetadown_PIO,Palhetadown_PIO_ID,Palhetadown_IDX_MASK,PIO_IT_FALL_EDGE,Palhetadown_callback);
+	pio_handler_set(Palhetaup_PIO,Palhetaup_PIO_ID,Palhetaup_IDX_MASK,PIO_IT_EDGE,Palhetaup_callback);
+	pio_handler_set(Palhetadown_PIO,Palhetadown_PIO_ID,Palhetadown_IDX_MASK,PIO_IT_EDGE,Palhetadown_callback);
 
 	NVIC_EnableIRQ(Green_PIO_ID);
 	NVIC_SetPriority(Green_PIO_ID, 4); // Prioridade 4
@@ -505,7 +506,7 @@ void task_bluetooth(void){
   
   while(1){
 	int8_t send_char = 0;  
-	if (xQueueReceive(xQueueBt, &(send_char), (TickType_t) 10 / portTICK_PERIOD_MS )) {
+	if (xQueueReceive(xQueueBt, &(send_char), (TickType_t) 100 / portTICK_PERIOD_MS )) {
 		while(!usart_is_tx_ready(USART_COM));
 		usart_write(USART_COM, send_char);	
 		while(!usart_is_tx_ready(USART_COM));
@@ -518,12 +519,15 @@ void task_afec(void){
 	config_ADC_TEMP();
 	while(true){
 		afec_start_software_conversion(AFEC0);
-		vTaskDelay(100/portTICK_PERIOD_MS);
+		vTaskDelay(50/portTICK_PERIOD_MS);
 	}
 }
 
 void task_imu(void){
 	/* buffer para recebimento de dados */
+	int16_t  accX, accY, accZ;
+	uint8_t  accXHigh, accYHigh, accZHigh;
+	uint8_t  accXLow,  accYLow,  accZLow;
 	uint8_t bufferRX[10];
 	uint8_t bufferTX[10];
 	uint8_t rtn;
@@ -571,7 +575,7 @@ void task_imu(void){
 		printf("x/y : %d / %d \n", accX/100, accY/100);
 		
 		int8_t dado = 0;
-		if((accX/100) > 120){
+		if((accX/100) > 115){
 			dado = ID_Imu<<4 | 1<<0;
 		}
 		else{
@@ -580,7 +584,7 @@ void task_imu(void){
 		BaseType_t xHigherPriorityTaskWoken = pdFALSE;
 		xQueueSendFromISR(xQueueBt, &dado, &xHigherPriorityTaskWoken);
 		
-		vTaskDelay(100/portTICK_PERIOD_MS);
+		vTaskDelay(50/portTICK_PERIOD_MS);
 	}
 }
 
