@@ -1,4 +1,8 @@
-﻿# Controle de Guitar Hero
+﻿# Guitar Hero Controller (EN)
+   Embedded Computing project made during the fifth semester of Computer Engineering (Insper - Brazil).
+   This project consisted in recreating Activision's Guitar Hero controller using bluetooth for study purpuses.
+
+# Controle de Guitar Hero (PT)
    Projeto do quinto semestre, da matéria Sistemas Embarcados (Insper).
    O projeto consistia em recriar o controle do jogo Guitar Hero (Activision) com bluetooth para fins de estudo.
  
